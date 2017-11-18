@@ -48,6 +48,8 @@ from cesium.features.period_folding import (period_folding, get_fold2P_slope_per
 from cesium.features.scatter_res_raw import scatter_res_raw
 
 def load(filename):
+    if not (filename.endswith('.dat') and len(filename.split('/')[-1].split('-')) == 4):
+        raise Exception('Wrong filename')
     try:
         with open(filename,"r") as f:
             df = pd.read_table(f,delim_whitespace = True,names=['time','intensity','error'],dtype={'time':np.float64,'intensity':np.float64,'error':np.float64}) # Import data from TSV file
