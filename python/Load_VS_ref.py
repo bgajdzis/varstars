@@ -1,5 +1,7 @@
+#!/usr/bin/env python3
 # coding: utf-8
 
+import argparse
 import os, sys
 import json
 import numpy as np
@@ -7,6 +9,7 @@ import pandas as pd
 import dask as ds
 import dask.bag as db
 from scipy import stats
+from dask.delayed import delayed
 from dask.threaded import get
 from dask.optimize import cull
 from dask.optimize import inline
@@ -45,17 +48,22 @@ from cesium.features.period_folding import (period_folding, get_fold2P_slope_per
 from cesium.features.scatter_res_raw import scatter_res_raw
 
 def load(filename):
-    if filename.endswith(".dat"):
+    try:
         with open(filename,"r") as f:
             df = pd.read_table(f,delim_whitespace = True,names=['time','intensity','error'],dtype={'time':np.float64,'intensity':np.float64,'error':np.float64}) # Import data from TSV file
         return df
+    except FileNotFoundError as e:
+        raise e
     
             
 def get_name(filename):
     return filename.split('/')[-1][:-4]        
 
 def get_type(filename):
-    return filename.split('/')[-1].split('-')[2]
+    try:
+        return filename.split('/')[-1].split('-')[2]
+    except Exception as e:
+        return 'NPer'
 
 def transform(df):
     obs_n = df.shape[0]
@@ -149,9 +157,11 @@ feature_categories = {
     ]
 }
 
-CADENCE_FEATS = feature_categories['Cadence/Error']
-GENERAL_FEATS = feature_categories['General']
-LOMB_SCARGLE_FEATS = feature_categories['Lomb-Scargle (Periodic)']
+CESIUM_CADENCE_FEATS = feature_categories['Cadence/Error']
+CESIUM_GENERAL_FEATS = feature_categories['General']
+CESIUM_LOMB_SCARGLE_FEATS = feature_categories['Lomb-Scargle (Periodic)']
+VARTOOLS_FEATS =[]
+ADDITIONAL_FEATS = []
 
 dask_feature_graph = {
     'loaded': (load,'filename'),
@@ -309,26 +319,40 @@ def store(result,outfile):
     with open(outfile,'w') as sink:
         sink.write(result)
 
-def main(in,out,*dummy):
+def featurize(inputfiles,outfile):
 
-inputfiles = None
-outfile = None
+    print(inputfiles)
+    print(outfile)
 
-try:
-    inputfiles = in
-    outputfiles = out
-except Exception as e:
-    print("bad input")
-    print(e)
+    features = ['name','type','timeseries'] + CESIUM_CADENCE_FEATS + CESIUM_GENERAL_FEATS + CESIUM_LOMB_SCARGLE_FEATS + ADDITIONAL_FEATS
+    files = inputfiles
+    print("""COPY reference_timeseries (%(keys)s) FROM stdin;\n"""%{'keys' : ','.join(features)})
 
-features = ['name','type','timeseries'] + CESIUM_CADENCE_FEATS + CESIUM_GENERAL_FEATS + CESIUM_LOMB_SCARGLE_FEATS + ADDITIONAL_FEATS
-files = inputfiles
-print("""COPY reference_timeseries (%(keys)s) FROM stdin;\n"""%{'keys' : ','.join(features)})
-
-results = [generate_and_get(file,features,'result') for file in files]
-aggregated = aggregate(results)
-stored = store(aggregated)
-stored.compute()
+    results = [generate_and_get(file,features,'result') for file in files]
+    aggregated = aggregate(results)
+    stored = store(aggregated,outfile)
+    stored.compute()
 
 if __name__=="__main__":
-    main(sys.argv[1],sys.argv[2],sys.argv[3:])
+    parser = argparse.ArgumentParser(description='Load and featurize given lightcurves.')
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument('-f',type=str,help='a file containing file names for input listed on separate lines')
+    group.add_argument('-l',nargs='+',type=str,help='a list of file names for input')
+    parser.add_argument('-o',nargs='?',type=str,help='a file name for output',default='outfile.dat')    
+    args = parser.parse_args()
+    if 'l' in args:
+        try:    
+            featurize(args.l,args.o)
+        except:
+            print('Something went wrong.')
+            raise
+    elif 'f' in args:
+        flist = []
+        try:
+            with open(args.f,'r') as infiles:
+                for line in infiles.readlines():
+                    flist.append(line)
+            featurize(flist,args.o)
+        except:
+            print('Something went wrong.')
+            raise 

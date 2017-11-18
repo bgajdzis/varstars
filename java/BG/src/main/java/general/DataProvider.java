@@ -112,7 +112,7 @@ public class DataProvider {
         }
         try {
             Statement refGet = this.conn.createStatement();
-            ResultSet refResults = refGet.executeQuery("SELECT * FROM ref_periodic LIMIT 100"); //TODO: fix hardcoded queries
+            ResultSet refResults = refGet.executeQuery("SELECT * FROM reference_timeseries"); //TODO: fix hardcoded queries
             VarstarsRef refobj = null;
             String type = null;
             VarstarFeatureSet featureSet = null;
@@ -152,7 +152,7 @@ public class DataProvider {
         this.igList = new ArrayList<VarstarsIG>();
         try {
             Statement igGet = this.conn.createStatement();
-            ResultSet igResults = igGet.executeQuery("SELECT * FROM input_timeseries TABLESAMPLE BERNOULLI (10) LIMIT 10000");
+            ResultSet igResults = igGet.executeQuery("SELECT * FROM input_timeseries");
             VarstarsIG igobj = null;
             String name = null;
             VarstarFeatureSet featureSet = null;

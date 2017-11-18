@@ -8,7 +8,7 @@ import java.util.Set;
 
 public class MCOCTest {
 
-
+/*
     @Test
     public void FullNetAllMCOCTestSuite(){
         Set<IReferenceObject> refSet;
@@ -21,9 +21,6 @@ public class MCOCTest {
             VarstarsNetwork testNetwork = nf.getFirstNetwork(refSet);
             int i = 0;
             for(VarstarsIG vig:inputList) {
-                if (++i > 100) {
-                    break;
-                }
                 System.out.println(++i);
                 testNetwork.setInput(vig);
                 testNetwork.processNetwork();
@@ -37,7 +34,7 @@ public class MCOCTest {
                         dp.saveResult(name,key);
                     }
                 }
-                vig = null;
+		vig = null;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -84,4 +81,6 @@ public class MCOCTest {
             }
         }
     }
+*/
+
 }
