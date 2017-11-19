@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 
+from multiprocessing import Process, JoinableQueue
 import argparse
 import os, sys
 import json
@@ -11,12 +12,7 @@ import dask.bag as db
 from scipy import stats
 from dask.delayed import delayed
 from dask.threaded import get
-from dask.optimize import cull
-from dask.optimize import inline
-from dask.optimize import inline_functions
-from dask.optimize import fuse
-
-#import cesium features
+from dask.optimize import cull, inline, inline_functions, fuse
 
 from cesium.features.cadence_features import (cad_prob, delta_t_hist, double_to_single_step,
                                normalize_hist, find_sorted_peaks, peak_bin,
@@ -48,31 +44,28 @@ from cesium.features.period_folding import (period_folding, get_fold2P_slope_per
 from cesium.features.scatter_res_raw import scatter_res_raw
 
 def load(filename):
-    assert (filename.endswith('.dat') and len(filename.split('/')[-1].split('-')) == 4), 'Filename in wrong format (see README)'
+    assert (filename.endswith('.dat') and len(filename.split('/')[-1].split('-')) == 4), 'Filename in wrong format (see README): ' + filename
     try:
         with open(filename,"r") as f:
             df = pd.read_table(f,delim_whitespace = True,names=['time','intensity','error'],dtype={'time':np.float64,'intensity':np.float64,'error':np.float64}) # Import data from TSV file
         return df
     except FileNotFoundError as e:
         raise e
-    
-            
+                
 def get_name(filename):
+    assert (filename.endswith('.dat') and len(filename.split('/')[-1].split('-')) == 4), 'Filename in wrong format (see README): ' + filename
     return filename.split('/')[-1][:-4]        
 
 def get_type(filename):
-    try:
-        return filename.split('/')[-1].split('-')[2]
-    except Exception as e:
-        return 'NPer'
+    assert (filename.endswith('.dat') and len(filename.split('/')[-1].split('-')) == 4), 'Filename in wrong format (see README): ' + filename
+    return filename.split('/')[-1].split('-')[2]
 
-def transform(df):
+def transform(df,filename):
     obs_n = df.shape[0]
-    if(obs_n >= 50): # Continue only if more than 50 observations have been made
-        df[(np.abs(stats.zscore(df)) < 3).all(axis=1)] # Remove outliers
-        if(df.shape[0] > 0.9 * obs_n): # Continue if no more than 10% of the initial results were removed as outliers
-            return df
-    return None
+    assert (obs_n >= 50), 'Not enough observatons: ' + filename
+    df[(np.abs(stats.zscore(df)) < 4).all(axis=1)] 
+    assert (df.shape[0] > 0.9 * obs_n), 'Too many outliers: ' + filename
+    return df
 
 def get_t(df):
     t = df['time'].as_matrix()
@@ -86,8 +79,8 @@ def get_e(df):
     return df['error'].as_matrix()
 
 def ts_format_json(t,i):
-    t = t.tolist() # Unwrap input from pandas series
-    i = i.tolist() # ----
+    t = t.tolist()
+    i = i.tolist()
     return json.dumps(dict(zip(t,i)))
 
 def formatter(*args):
@@ -99,6 +92,13 @@ def generate_dask_graph(filename, features):
     full_graph.update(dask_feature_graph)
     return full_graph
 
+def stasher(q,outfile):
+    with open(outfile, 'w') as out:
+        while True:
+            val = q.get()
+            if val is None: break
+            out.write(val + '\n')
+        q.task_done()
 
 __all__ = ['CADENCE_FEATS', 'GENERAL_FEATS', 'LOMB_SCARGLE_FEATS',
            'generate_dask_graph', 'feature_categories', 'dask_feature_graph']
@@ -168,7 +168,7 @@ dask_feature_graph = {
     'loaded': (load,'filename'),
     'name': (get_name,'filename'),
     'type': (get_type,'filename'),
-    'transformed': (transform,'loaded'),
+    'transformed': (transform,'loaded','filename'),
     't': (get_t,'transformed'),
     'e': (get_e,'transformed'),
     'm': (get_m,'transformed'),
@@ -309,41 +309,56 @@ def generate_and_get(file, features, keys):
     dsk2 = inline(dsk1, dependencies=deps)
     dsk3 = inline_functions(dsk2, keys, [len, str.split], dependencies=deps)
     dsk4, deps = fuse(dsk3)
-    return get(dsk4,'result')
+    try:
+        return get(dsk4,'result')
+    except Exception as e:
+        print(e.args)
+        return None
 
 @delayed
-def aggregate(lines):
-    return '\n'.join(lines)
+def stash(q,line):
+    try:
+        assert (q is not None and line is not None), 'Missing argument for stashing'
+        q.put(line)
+        return True
+    except Exception as e:
+        print(e.args)
+        return False
 
 @delayed
-def store(result,outfile):
-    with open(outfile,'w') as sink:
-        sink.write(result)
+def finalize(q,r_list):
+    if all(r_list):
+        print('Process finished without any errors')
+    else:
+        print('Process finished with some errors')
+    q.put(None)
 
-def featurize(inputfiles,outfile):
 
-    print(inputfiles)
-    print(outfile)
+def featurize(inputfiles,outfile,pg_header):
 
     features = ['name','type','timeseries'] + CESIUM_CADENCE_FEATS + CESIUM_GENERAL_FEATS + CESIUM_LOMB_SCARGLE_FEATS + ADDITIONAL_FEATS
-    files = inputfiles
-    print("""COPY reference_timeseries (%(keys)s) FROM stdin;\n"""%{'keys' : ','.join(features)})
-
-    results = [generate_and_get(file,features,'result') for file in files]
-    aggregated = aggregate(results)
-    stored = store(aggregated,outfile)
-    stored.compute()
+    q = JoinableQueue()
+    p = Process(target=stasher, args=(q,outfile,))
+    p.daemon = True
+    p.start()
+    if pg_header: q.put("""COPY reference_timeseries (%(keys)s) FROM stdin;\n"""%{'keys' : ','.join(features)})
+  
+    results = [generate_and_get(file,features,'result') for file in inputfiles]
+    stashed = [stash(q,res) for res in results]
+    finalized = finalize(q,stashed)
+    finalized.compute()
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser(description='Load and featurize given lightcurves.')
-    group = parser.add_mutually_exclusive_group(required=True)
-    group.add_argument('-f',type=str,help='a file containing file names for input listed on separate lines')
-    group.add_argument('-l',nargs='+',type=str,help='a list of file names for input')
+    group_in = parser.add_mutually_exclusive_group(required=True)
+    group_in.add_argument('-f',type=str,help='a file containing file names for input listed on separate lines')
+    group_in.add_argument('-l',nargs='+',type=str,help='a list of file names for input')
+    parser.add_argument('-H',action='store_true',help='when this flag is set, a header will be put in the first line')
     parser.add_argument('-o',nargs='?',type=str,help='a file name for output',default='outfile.dat')    
     args = parser.parse_args()
     if 'l' in args:
         try:    
-            featurize(args.l,args.o)
+            featurize(args.l,args.o,args.H)
         except:
             print('Something went wrong.')
             raise
@@ -353,7 +368,7 @@ if __name__=="__main__":
             with open(args.f,'r') as infiles:
                 for line in infiles.readlines():
                     flist.append(line)
-            featurize(flist,args.o)
+            featurize(flist,args.o,args.H)
         except:
             print('Something went wrong.')
             raise 
