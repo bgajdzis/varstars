@@ -7,12 +7,15 @@ import os, sys
 import json
 import numpy as np
 import pandas as pd
+import multiprocessing
 import dask as ds
 import dask.bag as db
 from scipy import stats
 from dask.delayed import delayed
 from dask.threaded import get
 from dask.optimize import cull, inline, inline_functions, fuse
+from dask.diagnostics import ProgressBar
+import warnings
 
 from cesium.features.cadence_features import (cad_prob, delta_t_hist, double_to_single_step,
                                normalize_hist, find_sorted_peaks, peak_bin,
@@ -311,18 +314,19 @@ def generate_and_get(file, features, keys):
     dsk4, deps = fuse(dsk3)
     try:
         return get(dsk4,'result')
-    except Exception as e:
-        print(e.args)
+    except AssertionError as e:
+        print('Problem in file',file,'\n',e)
         return None
 
 @delayed
 def stash(q,line):
     try:
-        assert (q is not None and line is not None), 'Missing argument for stashing'
+        assert (q is not None), 'Missing sink for stashing'
+        assert (line is not None), 'Missing data to be stashed'
         q.put(line)
         return True
-    except Exception as e:
-        print(e.args)
+    except AssertionError as e:
+        print(e)
         return False
 
 @delayed
@@ -346,7 +350,9 @@ def featurize(inputfiles,outfile,pg_header):
     results = [generate_and_get(file,features,'result') for file in inputfiles]
     stashed = [stash(q,res) for res in results]
     finalized = finalize(q,stashed)
-    finalized.compute()
+    print(results[0])
+    with ProgressBar():
+        finalized.compute(get=ds.multiprocessing.get,num_workers=8)
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser(description='Load and featurize given lightcurves.')
@@ -356,19 +362,21 @@ if __name__=="__main__":
     parser.add_argument('-H',action='store_true',help='when this flag is set, a header will be put in the first line')
     parser.add_argument('-o',nargs='?',type=str,help='a file name for output',default='outfile.dat')    
     args = parser.parse_args()
-    if 'l' in args:
+    if args.l is not None:
         try:    
             featurize(args.l,args.o,args.H)
         except:
             print('Something went wrong.')
             raise
-    elif 'f' in args:
+    elif args.f is not None:
         flist = []
         try:
             with open(args.f,'r') as infiles:
                 for line in infiles.readlines():
-                    flist.append(line)
+                    flist.append(line[:-1])
             featurize(flist,args.o,args.H)
         except:
             print('Something went wrong.')
             raise 
+    else:
+        print('Missing arugment')
