@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 
-from multiprocessing import Process, JoinableQueue
+from multiprocessing import Process, Queue, Pool, Manager
 import argparse
 import os, sys
 import json
@@ -10,6 +10,7 @@ import pandas as pd
 import multiprocessing
 import dask as ds
 import dask.bag as db
+from functools import partial
 from scipy import stats
 from dask.delayed import delayed
 from dask.threaded import get
@@ -101,7 +102,6 @@ def stasher(q,outfile):
             val = q.get()
             if val is None: break
             out.write(val + '\n')
-        q.task_done()
 
 __all__ = ['CADENCE_FEATS', 'GENERAL_FEATS', 'LOMB_SCARGLE_FEATS',
            'generate_dask_graph', 'feature_categories', 'dask_feature_graph']
@@ -302,23 +302,9 @@ dask_feature_graph = {
     'p2p_scatter_pfold_over_mad': (get_p2p_scatter_pfold_over_mad, '_p2p_model'),
     'p2p_ssqr_diff_over_var': (get_p2p_ssqr_diff_over_var, '_p2p_model'),
     'timeseries': (ts_format_json, 't', 'm'),
-    'result': (formatter, 'features')
+    'formatted': (formatter, 'features')
 }
 
-@delayed
-def generate_and_get(file, features, keys):
-    dsk = generate_dask_graph(file,features)
-    dsk1, deps = cull(dsk, keys)
-    dsk2 = inline(dsk1, dependencies=deps)
-    dsk3 = inline_functions(dsk2, keys, [len, str.split], dependencies=deps)
-    dsk4, deps = fuse(dsk3)
-    try:
-        return get(dsk4,'result')
-    except AssertionError as e:
-        print('Problem in file',file,'\n',e)
-        return None
-
-@delayed
 def stash(q,line):
     try:
         assert (q is not None), 'Missing sink for stashing'
@@ -329,30 +315,37 @@ def stash(q,line):
         print(e)
         return False
 
-@delayed
-def finalize(q,r_list):
-    if all(r_list):
-        print('Process finished without any errors')
-    else:
-        print('Process finished with some errors')
-    q.put(None)
-
+def generate_and_get(file, features, keys, finalize, stash, drain):
+    dsk = generate_dask_graph(file,features)
+    dsk['drain'] = drain
+    dsk['stashed'] = (stash,'drain','formatted')
+    dsk1, deps = cull(dsk, keys)
+    dsk2 = inline(dsk1, dependencies=deps)
+    dsk3 = inline_functions(dsk2, keys, [len, str.split], dependencies=deps)
+    dsk4, deps = fuse(dsk3)
+    try:
+        return get(dsk4,finalize)
+    except AssertionError as e:
+        print('Problem in file',file,'\n',e)
+        return None
 
 def featurize(inputfiles,outfile,pg_header):
 
     features = ['name','type','timeseries'] + CESIUM_CADENCE_FEATS + CESIUM_GENERAL_FEATS + CESIUM_LOMB_SCARGLE_FEATS + ADDITIONAL_FEATS
-    q = JoinableQueue()
-    p = Process(target=stasher, args=(q,outfile,))
+    keys = ['stashed']
+    m = Manager()
+    drain = m.Queue()
+    p = Process(target=stasher, args=(drain,outfile,))
     p.daemon = True
     p.start()
-    if pg_header: q.put("""COPY reference_timeseries (%(keys)s) FROM stdin;\n"""%{'keys' : ','.join(features)})
+    if pg_header: drain.put("""COPY reference_timeseries (%(keys)s) FROM stdin;\n"""%{'keys' : ','.join(features)})
   
-    results = [generate_and_get(file,features,'result') for file in inputfiles]
-    stashed = [stash(q,res) for res in results]
-    finalized = finalize(q,stashed)
-    print(results[0])
-    with ProgressBar():
-        finalized.compute(get=ds.multiprocessing.get,num_workers=8)
+    get_from_filename = partial(generate_and_get, keys = keys, features = features, finalize = 'stashed', stash = stash, drain = drain)
+
+    with Pool(processes=8) as pool:
+        results = pool.map(get_from_filename,inputfiles)
+    drain.put(None)
+    p.join()
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser(description='Load and featurize given lightcurves.')
