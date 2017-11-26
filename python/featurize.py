@@ -315,7 +315,7 @@ def stash(q,line):
         print(e)
         return False
 
-def generate_and_get(file, features, keys, finalize, stash, drain, is_ref):
+def generate_and_get(file, features, keys, finalize, stash, drain, is_ref, warns):
     dsk = generate_dask_graph(file,features)
     dsk['is_ref'] = is_ref
     dsk['drain'] = drain
@@ -324,13 +324,18 @@ def generate_and_get(file, features, keys, finalize, stash, drain, is_ref):
     dsk2 = inline(dsk1, dependencies=deps)
     dsk3 = inline_functions(dsk2, keys, [len, str.split], dependencies=deps)
     dsk4, deps = fuse(dsk3)
-    try:
-        return get(dsk4,finalize)
-    except AssertionError as e:
-        print('Problem in file',file,'\n',e)
-        return None
+    with warnings.catch_warnings():
+        warnings.simplefilter(warns,RuntimeWarning)
+        try:
+            return get(dsk4,finalize)
+        except RuntimeWarning as w:
+            print('Warning raised in file',file,'\n',w)
+            return None
+        except AssertionError as e:
+            print('Problem in file',file,'\n',e)
+            return None
 
-def featurize(inputfiles,outfile,is_ref=True,pg_header=False,tsv_header=False):
+def featurize(inputfiles,outfile,is_ref=True,pg_header=False,tsv_header=False,warns='always'):
 
     features = ['name', 'type', 'timeseries'] + CESIUM_CADENCE_FEATS + CESIUM_GENERAL_FEATS + CESIUM_LOMB_SCARGLE_FEATS + ADDITIONAL_FEATS
     if not is_ref: features.remove('type')
@@ -344,7 +349,7 @@ def featurize(inputfiles,outfile,is_ref=True,pg_header=False,tsv_header=False):
     table_name = 'reference_timeseries' if is_ref else 'input_timeseries'
     if pg_header: drain.put("""COPY %(table_name)s (%(keys)s) FROM stdin;\n"""%{'table_name' : table_name, 'keys' : ','.join(features)})
     if tsv_header: drain.put("""%(keys)s\n"""%{'keys' : '\t'.join(features)})
-    get_from_filename = partial(generate_and_get, keys = keys, features = features, finalize = 'stashed', stash = stash, drain = drain, is_ref = is_ref)
+    get_from_filename = partial(generate_and_get, keys = keys, features = features, finalize = 'stashed', stash = stash, drain = drain, is_ref = is_ref, warns = warns)
 
     with Pool(processes=procno) as pool:
         results = pool.map(get_from_filename,inputfiles)
@@ -359,12 +364,14 @@ if __name__=="__main__":
     header = parser.add_mutually_exclusive_group(required=False)
     header.add_argument('--postgres-header',action='store_true',help='include postgres copy-statement as header')
     header.add_argument('--tsv-header',action='store_true',help='include tsv header')
-    parser.add_argument('-o',nargs='?',type=str,help='a file name for output',default='outfile.dat')    
+    parser.add_argument('-o',nargs='?',type=str,help='a file name for output. By default "outfile.dat"',default='outfile.dat')    
     parser.add_argument('-S',action='store_false',help='load data as signal granules instead of reference set')
+    parser.add_argument('-w',nargs='?',type=str,default='always',help='rule for handling runtime warnings. "ignore", "error". By default "always"')
     args = parser.parse_args()
+    if args.w not in ['always','ignore','error']: args.w='always'
     if args.l is not None:
         try:    
-            featurize(args.l,args.o,args.S,args.postgres_header,args.tsv_header)
+            featurize(args.l,args.o,args.S,args.postgres_header,args.tsv_header,args.w)
         except:
             print('Something went wrong.')
             raise
@@ -374,7 +381,7 @@ if __name__=="__main__":
             with open(args.f,'r') as infiles:
                 for line in infiles.readlines():
                     flist.append(line[:-1])
-            featurize(flist,args.o,args.S,args.postgres_header,args.tsv_header)
+            featurize(flist,args.o,args.S,args.postgres_header,args.tsv_header,args.w)
         except:
             print('Something went wrong.')
             raise 
