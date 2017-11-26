@@ -48,7 +48,6 @@ from cesium.features.period_folding import (period_folding, get_fold2P_slope_per
 from cesium.features.scatter_res_raw import scatter_res_raw
 
 def load(filename):
-    assert (filename.endswith('.dat') and len(filename.split('/')[-1].split('-')) == 4), 'Filename in wrong format (see README): ' + filename
     try:
         with open(filename,"r") as f:
             df = pd.read_table(f,delim_whitespace = True,names=['time','intensity','error'],dtype={'time':np.float64,'intensity':np.float64,'error':np.float64}) # Import data from TSV file
@@ -56,12 +55,13 @@ def load(filename):
     except FileNotFoundError as e:
         raise e
                 
-def get_name(filename):
-    assert (filename.endswith('.dat') and len(filename.split('/')[-1].split('-')) == 4), 'Filename in wrong format (see README): ' + filename
-    return filename.split('/')[-1][:-4]        
+def get_name(filename, is_ref):
+    if is_ref:
+        assert (filename.endswith('.dat') and len(filename.split('/')[-1].split('-')) == 4), 'Filename in wrong format for reference object (see README): ' + filename
+    return filename.split('/')[-1][:-4].upper().replace('_I_','.')        
 
 def get_type(filename):
-    assert (filename.endswith('.dat') and len(filename.split('/')[-1].split('-')) == 4), 'Filename in wrong format (see README): ' + filename
+    assert (filename.endswith('.dat') and len(filename.split('/')[-1].split('-')) == 4), 'Filename in wrong format for reference object (see README): ' + filename
     return filename.split('/')[-1].split('-')[2]
 
 def transform(df,filename):
@@ -88,7 +88,7 @@ def ts_format_json(t,i):
     return json.dumps(dict(zip(t,i)))
 
 def formatter(*args):
-    query = """%(values)s"""%{'values':'	'.join(str(x) for x in args[0])}
+    query = """%(values)s"""%{'values':'\t'.join(str(x) for x in args[0])}
     return query     
     
 def generate_dask_graph(filename, features):
@@ -169,7 +169,7 @@ ADDITIONAL_FEATS = []
 
 dask_feature_graph = {
     'loaded': (load,'filename'),
-    'name': (get_name,'filename'),
+    'name': (get_name,'filename','is_ref'),
     'type': (get_type,'filename'),
     'transformed': (transform,'loaded','filename'),
     't': (get_t,'transformed'),
@@ -315,8 +315,9 @@ def stash(q,line):
         print(e)
         return False
 
-def generate_and_get(file, features, keys, finalize, stash, drain):
+def generate_and_get(file, features, keys, finalize, stash, drain, is_ref):
     dsk = generate_dask_graph(file,features)
+    dsk['is_ref'] = is_ref
     dsk['drain'] = drain
     dsk['stashed'] = (stash,'drain','formatted')
     dsk1, deps = cull(dsk, keys)
@@ -329,20 +330,23 @@ def generate_and_get(file, features, keys, finalize, stash, drain):
         print('Problem in file',file,'\n',e)
         return None
 
-def featurize(inputfiles,outfile,pg_header):
+def featurize(inputfiles,outfile,is_ref=True,pg_header=False,tsv_header=False):
 
-    features = ['name','type','timeseries'] + CESIUM_CADENCE_FEATS + CESIUM_GENERAL_FEATS + CESIUM_LOMB_SCARGLE_FEATS + ADDITIONAL_FEATS
+    features = ['name', 'type', 'timeseries'] + CESIUM_CADENCE_FEATS + CESIUM_GENERAL_FEATS + CESIUM_LOMB_SCARGLE_FEATS + ADDITIONAL_FEATS
+    if not is_ref: features.remove('type')
     keys = ['stashed']
+    procno = int(multiprocessing.cpu_count() * 1.5)
     m = Manager()
     drain = m.Queue()
     p = Process(target=stasher, args=(drain,outfile,))
     p.daemon = True
     p.start()
-    if pg_header: drain.put("""COPY reference_timeseries (%(keys)s) FROM stdin;\n"""%{'keys' : ','.join(features)})
-  
-    get_from_filename = partial(generate_and_get, keys = keys, features = features, finalize = 'stashed', stash = stash, drain = drain)
+    table_name = 'reference_timeseries' if is_ref else 'input_timeseries'
+    if pg_header: drain.put("""COPY %(table_name)s (%(keys)s) FROM stdin;\n"""%{'table_name' : table_name, 'keys' : ','.join(features)})
+    if tsv_header: drain.put("""%(keys)s\n"""%{'keys' : '\t'.join(features)})
+    get_from_filename = partial(generate_and_get, keys = keys, features = features, finalize = 'stashed', stash = stash, drain = drain, is_ref = is_ref)
 
-    with Pool(processes=8) as pool:
+    with Pool(processes=procno) as pool:
         results = pool.map(get_from_filename,inputfiles)
     drain.put(None)
     p.join()
@@ -352,12 +356,15 @@ if __name__=="__main__":
     group_in = parser.add_mutually_exclusive_group(required=True)
     group_in.add_argument('-f',type=str,help='a file containing file names for input listed on separate lines')
     group_in.add_argument('-l',nargs='+',type=str,help='a list of file names for input')
-    parser.add_argument('-H',action='store_true',help='when this flag is set, a header will be put in the first line')
+    header = parser.add_mutually_exclusive_group(required=False)
+    header.add_argument('--postgres-header',action='store_true',help='include postgres copy-statement as header')
+    header.add_argument('--tsv-header',action='store_true',help='include tsv header')
     parser.add_argument('-o',nargs='?',type=str,help='a file name for output',default='outfile.dat')    
+    parser.add_argument('-S',action='store_false',help='load data as signal granules instead of reference set')
     args = parser.parse_args()
     if args.l is not None:
         try:    
-            featurize(args.l,args.o,args.H)
+            featurize(args.l,args.o,args.S,args.postgres_header,args.tsv_header)
         except:
             print('Something went wrong.')
             raise
@@ -367,7 +374,7 @@ if __name__=="__main__":
             with open(args.f,'r') as infiles:
                 for line in infiles.readlines():
                     flist.append(line[:-1])
-            featurize(flist,args.o,args.H)
+            featurize(flist,args.o,args.S,args.postgres_header,args.tsv_header)
         except:
             print('Something went wrong.')
             raise 
