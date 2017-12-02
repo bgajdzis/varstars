@@ -341,7 +341,7 @@ def featurize(inputfiles,outfile,is_ref=True,pg_header=False,tsv_header=False,ap
     features = ['name', 'type', 'timeseries'] + CESIUM_CADENCE_FEATS + CESIUM_GENERAL_FEATS + CESIUM_LOMB_SCARGLE_FEATS + ADDITIONAL_FEATS
     if not is_ref: features.remove('type')
     keys = ['stashed']
-    procno = int(multiprocessing.cpu_count() * 1.5)
+    procno = multiprocessing.cpu_count()
     m = Manager()
     drain = m.Queue()
     p = Process(target=stasher, args=(drain,outfile,append,))
