@@ -96,8 +96,9 @@ def generate_dask_graph(filename, features):
     full_graph.update(dask_feature_graph)
     return full_graph
 
-def stasher(q,outfile):
-    with open(outfile, 'w') as out:
+def stasher(q,outfile,append):
+    mode = 'a' if append else 'w'
+    with open(outfile, mode) as out:
         while True:
             val = q.get()
             if val is None: break
@@ -335,7 +336,7 @@ def generate_and_get(file, features, keys, finalize, stash, drain, is_ref, warns
             print('Problem in file',file,'\n',e)
             return None
 
-def featurize(inputfiles,outfile,is_ref=True,pg_header=False,tsv_header=False,warns='always'):
+def featurize(inputfiles,outfile,is_ref=True,pg_header=False,tsv_header=False,append=False,warns='always'):
 
     features = ['name', 'type', 'timeseries'] + CESIUM_CADENCE_FEATS + CESIUM_GENERAL_FEATS + CESIUM_LOMB_SCARGLE_FEATS + ADDITIONAL_FEATS
     if not is_ref: features.remove('type')
@@ -343,7 +344,7 @@ def featurize(inputfiles,outfile,is_ref=True,pg_header=False,tsv_header=False,wa
     procno = int(multiprocessing.cpu_count() * 1.5)
     m = Manager()
     drain = m.Queue()
-    p = Process(target=stasher, args=(drain,outfile,))
+    p = Process(target=stasher, args=(drain,outfile,append,))
     p.daemon = True
     p.start()
     table_name = 'reference_timeseries' if is_ref else 'input_timeseries'
@@ -364,6 +365,7 @@ if __name__=="__main__":
     header = parser.add_mutually_exclusive_group(required=False)
     header.add_argument('--postgres-header',action='store_true',help='include postgres copy-statement as header')
     header.add_argument('--tsv-header',action='store_true',help='include tsv header')
+    header.add_argument('--append',action='store_true',help='append to output file, no header')
     parser.add_argument('-o',nargs='?',type=str,help='a file name for output. By default "outfile.dat"',default='outfile.dat')    
     parser.add_argument('-S',action='store_false',help='load data as signal granules instead of reference set')
     parser.add_argument('-w',nargs='?',type=str,default='always',help='rule for handling runtime warnings. "ignore", "error". By default "always"')
@@ -371,7 +373,7 @@ if __name__=="__main__":
     if args.w not in ['always','ignore','error']: args.w='always'
     if args.l is not None:
         try:    
-            featurize(args.l,args.o,args.S,args.postgres_header,args.tsv_header,args.w)
+            featurize(args.l,args.o,args.S,args.postgres_header,args.tsv_header,args.append,args.w)
         except:
             print('Something went wrong.')
             raise
@@ -381,7 +383,7 @@ if __name__=="__main__":
             with open(args.f,'r') as infiles:
                 for line in infiles.readlines():
                     flist.append(line[:-1])
-            featurize(flist,args.o,args.S,args.postgres_header,args.tsv_header,args.w)
+            featurize(flist,args.o,args.S,args.postgres_header,args.tsv_header,args.append,args.w)
         except:
             print('Something went wrong.')
             raise 
