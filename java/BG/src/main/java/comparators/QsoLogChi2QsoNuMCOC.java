@@ -29,7 +29,7 @@ public class QsoLogChi2QsoNuMCOC extends AbstractMonolithicCOComparator<VarstarF
 
     @Override
     protected void setP() {
-        this.p = 0.4;
+        this.p = 0.7;
     }
 
     @Override

@@ -29,7 +29,7 @@ public class AllTimesNHistPeak2BinMCOC extends AbstractMonolithicCOComparator<Va
 
     @Override
     protected void setP() {
-        this.p = 0.4;
+        this.p = 0.7;
     }
 
     @Override

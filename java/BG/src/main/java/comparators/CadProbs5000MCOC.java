@@ -29,7 +29,7 @@ public class CadProbs5000MCOC extends AbstractMonolithicCOComparator<VarstarFeat
 
     @Override
     protected void setP() {
-        this.p = 0.4;
+        this.p = 0.7;
     }
 
     @Override
