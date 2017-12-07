@@ -28,7 +28,7 @@ public class ObsMedianMCOC extends AbstractMonolithicCOComparator<VarstarFeature
 
     @Override
     protected void setP() {
-        this.p = 0.1;
+        this.p = 0.4;
     }
 
     @Override

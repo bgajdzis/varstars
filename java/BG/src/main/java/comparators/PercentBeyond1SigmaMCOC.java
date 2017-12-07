@@ -28,7 +28,7 @@ public class PercentBeyond1SigmaMCOC extends AbstractMonolithicCOComparator<Vars
 
     @Override
     protected void setP() {
-        this.p = 0.1;
+        this.p = 0.4;
     }
 
     @Override

@@ -29,7 +29,7 @@ public class FreqYOffsetMCOC extends AbstractMonolithicCOComparator<VarstarFeatu
 
     @Override
     protected void setP() {
-        this.p = 0.1;
+        this.p = 0.4;
     }
 
     @Override

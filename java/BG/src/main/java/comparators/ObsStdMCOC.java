@@ -28,7 +28,7 @@ public class ObsStdMCOC extends AbstractMonolithicCOComparator<VarstarFeatureSet
 
     @Override
     protected void setP() {
-        this.p = 0.1;
+        this.p = 0.4;
     }
 
     @Override
