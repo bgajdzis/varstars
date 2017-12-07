@@ -47,7 +47,7 @@ public class DataProvider {
     public void commitResult(Map<String,String> resultmap){
         try {
             Statement commitStatement = this.conn.createStatement();
-            String query = "INSERT into predicted_types (name, type) VALUES \n";
+            String query = "INSERT into predicted_types_3 (name, type) VALUES \n";
             for (Map.Entry<String, String> entry : resultmap.entrySet()) {
                 query+=String.format("('%s','%s'),\n", entry.getKey(), entry.getValue());
             }
@@ -112,7 +112,7 @@ public class DataProvider {
         }
         try {
             Statement refGet = this.conn.createStatement();
-            ResultSet refResults = refGet.executeQuery("SELECT * FROM reference_timeseries"); //TODO: fix hardcoded queries
+            ResultSet refResults = refGet.executeQuery("SELECT * FROM reference_timeseries TABLESAMPLE BERNOULLI (25)"); //TODO: fix hardcoded queries
             VarstarsRef refobj = null;
             String type = null;
             VarstarFeatureSet featureSet = null;
@@ -160,7 +160,7 @@ public class DataProvider {
             ObjectMapper om = new ObjectMapper();
             while (igResults.next()) {
                 featureSet = new VarstarFeatureSet();
-                name = igResults.getString("obj_id");
+                name = igResults.getString("object_id");
                 BeanUtils.setProperty(featureSet,"timeseriesObs",om.readValue(igResults.getString("timeseries"), new TypeReference<Map<Double,Double>>(){}));
                 for(int i = 0; i<fields.length;i++){
                     if(fields[i].getType() == Double.class){
