@@ -47,7 +47,7 @@ public class DataProvider {
     public void commitResult(Map<String,String> resultmap){
         try {
             Statement commitStatement = this.conn.createStatement();
-            String query = "INSERT into predicted_types_4 (name, type) VALUES \n";
+            String query = "INSERT into predicted_types (name, type) VALUES \n";
             for (Map.Entry<String, String> entry : resultmap.entrySet()) {
                 query+=String.format("('%s','%s'),\n", entry.getKey(), entry.getValue());
             }

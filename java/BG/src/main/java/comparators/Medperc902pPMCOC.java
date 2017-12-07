@@ -29,7 +29,7 @@ public class Medperc902pPMCOC extends AbstractMonolithicCOComparator<VarstarFeat
 
     @Override
     protected void setP() {
-        this.p = 0.4;
+        this.p = 0.2;
     }
 
     @Override

@@ -29,7 +29,7 @@ public class FreqSignifRatio31MCOC extends AbstractMonolithicCOComparator<Varsta
 
     @Override
     protected void setP() {
-        this.p = 0.4;
+        this.p = 0.2;
     }
 
     @Override

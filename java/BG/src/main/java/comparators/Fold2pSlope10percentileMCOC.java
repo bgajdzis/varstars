@@ -29,7 +29,7 @@ public class Fold2pSlope10percentileMCOC extends AbstractMonolithicCOComparator<
 
     @Override
     protected void setP() {
-        this.p = 0.4;
+        this.p = 0.2;
     }
 
     @Override
