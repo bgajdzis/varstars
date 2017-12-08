@@ -34,6 +34,12 @@ public class Runner {
                         dp.saveResult(name,key);
                     }
                 }
+                else{
+                    String key = "NPer";
+                    String value = "No other matches";
+                    System.out.println(name+": "+key+" "+value);
+                    dp.saveResult(name,key);
+                }
                 iter.remove();
                 if(++i % 1000 == 0) {
                     dp.commitResult();

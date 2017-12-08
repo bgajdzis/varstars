@@ -37,7 +37,7 @@ public class TimeseriesDTWMCOC extends AbstractMonolithicCOComparator<VarstarFea
 
     @Override
     protected void setP() {
-        this.p = 0.2;
+        this.p = Constants.compP;
     }
 
     @Override

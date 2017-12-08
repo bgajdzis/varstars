@@ -29,7 +29,7 @@ public class P2pScatterOverMadMCOC extends AbstractMonolithicCOComparator<Varsta
 
     @Override
     protected void setP() {
-        this.p = 0.2;
+        this.p = Constants.compP;
     }
 
     @Override

@@ -29,7 +29,7 @@ public class Freq1RelPhase4MCOC extends AbstractMonolithicCOComparator<VarstarFe
 
     @Override
     protected void setP() {
-        this.p = 0.2;
+        this.p = Constants.compP;
     }
 
     @Override

@@ -61,8 +61,10 @@ public class DataProvider {
         }
     }
     public void commitResult(){
-        commitResult(this.resultsMap);
-        this.resultsMap = new ConcurrentHashMap<>();
+        if(this.resultsMap.size()!=0) {
+            commitResult(this.resultsMap);
+            this.resultsMap = new ConcurrentHashMap<>();
+        }
     }
 
     private Set<IReferenceObject> refSet = null;

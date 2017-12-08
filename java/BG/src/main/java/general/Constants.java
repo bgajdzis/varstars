@@ -4,6 +4,8 @@ import comparators.*;
 
 public final class Constants {
 
+    public static final Double compP = 0.9;
+
     public static final Integer Amplitude = 1;
     public static final Integer PercentageAmplitude = 2;
     public static final Integer FluxPercentilePercentDifference = 3;

@@ -29,7 +29,7 @@ public class Freq2Amplitude3MCOC extends AbstractMonolithicCOComparator<VarstarF
 
     @Override
     protected void setP() {
-        this.p = 0.2;
+        this.p = Constants.compP;
     }
 
     @Override

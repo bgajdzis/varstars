@@ -28,7 +28,7 @@ public class StetsonKMCOC extends AbstractMonolithicCOComparator<VarstarFeatureS
 
     @Override
     protected void setP() {
-        this.p = 0.2;
+        this.p = Constants.compP;
     }
 
     @Override

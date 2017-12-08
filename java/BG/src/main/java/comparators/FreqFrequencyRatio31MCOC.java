@@ -29,7 +29,7 @@ public class FreqFrequencyRatio31MCOC extends AbstractMonolithicCOComparator<Var
 
     @Override
     protected void setP() {
-        this.p = 0.2;
+        this.p = Constants.compP;
     }
 
     @Override
