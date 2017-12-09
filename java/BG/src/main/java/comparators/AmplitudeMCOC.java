@@ -28,13 +28,21 @@ public class AmplitudeMCOC extends AbstractMonolithicCOComparator<VarstarFeature
 
     @Override
     protected void setP() {
-        this.p = Constants.compP;
+        this.p = Constants.nonPerP;
     }
 
     @Override
     protected double getMembershipValue(IMonolithicReferenceObject ref) throws ComparatorException {
         Double inputValue;
         Double referenceValue;
+        try {
+            if (((VarstarsRef) ref).getReferenceName() != "NPer") {
+                this.p = Constants.perP;
+            }
+        } catch (Exception e) {
+            //log.error(e, e);
+            return 0;
+        }
         /*
         try{
             //System.out.println(this.layer.getReferencesSet().size());

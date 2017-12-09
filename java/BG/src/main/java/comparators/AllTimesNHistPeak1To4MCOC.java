@@ -29,12 +29,20 @@ public class AllTimesNHistPeak1To4MCOC extends AbstractMonolithicCOComparator<Va
 
     @Override
     protected void setP() {
-        this.p = Constants.compP;
+        this.p = Constants.nonPerP;
     }
 
     @Override
     protected double getMembershipValue(IMonolithicReferenceObject ref) throws
             ComparatorException {
+        try {
+            if (((VarstarsRef) ref).getReferenceName() != "NPer") {
+                this.p = Constants.perP;
+            }
+        } catch (Exception e) {
+            //log.error(e, e);
+            return 0;
+        }
         Double inputValue;
         Double referenceValue;
         try {
