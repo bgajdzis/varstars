@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class Runner {
-    public static void main(String[] args){
+    public static void main(String[] args) {
         Set<IReferenceObject> refSet;
         List<VarstarsIG> inputList = null;
         DataProvider dp = DataProvider.getInstance();
@@ -20,30 +20,31 @@ public class Runner {
         long t0 = System.currentTimeMillis();
         try {
             VarstarsNetwork testNetwork = nf.getFirstNetwork(refSet);
-            for(Iterator<VarstarsIG> iter = inputList.listIterator();iter.hasNext();) {
+            for (Iterator<VarstarsIG> iter = inputList.listIterator(); iter.hasNext(); ) {
                 VarstarsIG vig = iter.next();
                 testNetwork.setInput(vig);
                 testNetwork.processNetwork();
                 String name = vig.getName();
-                Map<IReferenceObject,Double> resultMap = testNetwork.getInput().getResults();
-                if(resultMap!=null){
-                    for (Map.Entry<IReferenceObject,Double> entry : resultMap.entrySet()) {
-                        String key = entry.getKey().getReferenceName();
-                        String value = entry.getValue().toString();
-                        System.out.println(name+": "+key+" "+value);
-                        dp.saveResult(name,key);
+                Map<IReferenceObject, Double> resultMap = testNetwork.getInput().getResults();
+                if (resultMap != null) {
+                    if (resultMap.size() > 0) {
+                        for (Map.Entry<IReferenceObject, Double> entry : resultMap.entrySet()) {
+                            String key = entry.getKey().getReferenceName();
+                            String value = entry.getValue().toString();
+                            System.out.println(name + ": " + key + " " + value);
+                            dp.saveResult(name, key);
+                        }
+                    } else {
+                        String key = "NPer";
+                        String value = "No other matches";
+                        System.out.println(name + ": " + key + " " + value);
+                        dp.saveResult(name, key);
                     }
                 }
-                else{
-                    String key = "NPer";
-                    String value = "No other matches";
-                    System.out.println(name+": "+key+" "+value);
-                    dp.saveResult(name,key);
-                }
                 iter.remove();
-                if(++i % 1000 == 0) {
+                if (++i % 1000 == 0) {
                     dp.commitResult();
-                    System.out.println("Przetworzono " + String.valueOf(i) + " obiektów w " + String.valueOf((System.currentTimeMillis()-t0)/60000) + "minut");
+                    System.out.println("Przetworzono " + String.valueOf(i) + " obiektów w " + String.valueOf((System.currentTimeMillis() - t0) / 60000) + "minut");
                 }
             }
         } catch (Exception e) {

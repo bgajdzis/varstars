@@ -1,14 +1,13 @@
 package layers;
+
 import general.VarstarFeatureSet;
-
-import java.util.Map;
-import java.util.Set;
-
 import pl.ls.comparators.ComparatorEnums;
-import pl.ls.networks.layers.AbstractMonolithicInputLayer;
 import pl.ls.networks.layers.AbstractMonolithicIntermediateLayer;
 import pl.ls.objects.compound.base.IReferenceObject;
 import pl.ls.objects.rules.base.AbstractExceptionRule;
+
+import java.util.Map;
+import java.util.Set;
 
 public class VarstarsMidLayer extends AbstractMonolithicIntermediateLayer<VarstarFeatureSet> {
 
