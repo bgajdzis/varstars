@@ -3,7 +3,6 @@
  */
 package general;
 
-import javax.xml.bind.Element;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -28,11 +27,11 @@ public final class Utils {
         return pickNRandomElements(list, n, ThreadLocalRandom.current());
     }
 
-    public static List<Map.Entry<Double,Double>> listNormalize(List<Map.Entry<Double,Double>> list) {
-        Double min = list.stream().min(Comparator.comparingDouble(Map.Entry<Double,Double>::getValue)).get().getValue();
-        Double max = list.stream().max(Comparator.comparingDouble(Map.Entry<Double,Double>::getValue)).get().getValue();
-        for (Map.Entry<Double,Double> el:list){
-            el.setValue((el.getValue()-min)/(max-min));
+    public static List<Map.Entry<Double, Double>> listNormalize(List<Map.Entry<Double, Double>> list) {
+        Double min = list.stream().min(Comparator.comparingDouble(Map.Entry<Double, Double>::getValue)).get().getValue();
+        Double max = list.stream().max(Comparator.comparingDouble(Map.Entry<Double, Double>::getValue)).get().getValue();
+        for (Map.Entry<Double, Double> el : list) {
+            el.setValue((el.getValue() - min) / (max - min));
         }
         //System.out.println(list.stream().min(Comparator.comparingDouble(Map.Entry<Double,Double>::getValue)).get().getValue());
         //System.out.println(list.stream().max(Comparator.comparingDouble(Map.Entry<Double,Double>::getValue)).get().getValue());

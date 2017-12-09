@@ -2,81 +2,34 @@
  * Created by gajdzis on 6/7/17.
  */
 package general;
-import com.fasterxml.jackson.core.ObjectCodec;
-import com.fasterxml.jackson.core.type.TypeReference;
-import javax.persistence.Column;
-import org.json.JSONObject;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.beanutils.BeanUtils;
 import pl.ls.objects.compound.base.IReferenceObject;
 
-import java.lang.reflect.Field;
-import java.sql.*;
-import java.time.Clock;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
+import javax.persistence.Column;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Properties;
-import org.apache.commons.beanutils.BeanUtils;
-
-import general.VarstarsRef;
-import general.VarstarsIG;
-import general.VarstarFeatureSet;
+import java.lang.reflect.Field;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class DataProvider {
 
-    public static DataProvider getInstance() {
-        return DataProviderHolder.INSTANCE;
-    }
-
-    public Set<IReferenceObject> getRefSet() {
-        return this.refSet;
-    }
-    public List<VarstarsIG> getIgList() {return this.igList; }
-
-    private Map<String,String> resultsMap = new ConcurrentHashMap();
-    public void saveResult(String name, String type){
-        this.resultsMap.put(name,type);
-    }
-    public void commitResult(Map<String,String> resultmap){
-        try {
-            Statement commitStatement = this.conn.createStatement();
-            String query = "INSERT into predicted_types (name, type) VALUES \n";
-            for (Map.Entry<String, String> entry : resultmap.entrySet()) {
-                query+=String.format("('%s','%s'),\n", entry.getKey(), entry.getValue());
-            }
-            query=query.substring(0, query.length() - 2);
-            System.out.println(query);
-            commitStatement.executeQuery(query);
-            commitStatement.close();
-        } catch (Exception e) {
-            System.out.println(String.format("Result insertion failed"));
-            e.printStackTrace();
-        }
-    }
-    public void commitResult(){
-        if(this.resultsMap.size()!=0) {
-            commitResult(this.resultsMap);
-            this.resultsMap = new ConcurrentHashMap<>();
-        }
-    }
-
+    private Map<String, String> resultsMap = new ConcurrentHashMap();
     private Set<IReferenceObject> refSet = null;
     private List<VarstarsIG> igList = null;
-
     private Connection conn = null;
     private String connstring;
     private String user;
     private String pass;
-    private static class DataProviderHolder {
-        private static final DataProvider INSTANCE = new DataProvider();
-    }
+
     private DataProvider() {
         //set connection string
         Properties prop = new Properties();
@@ -103,11 +56,11 @@ public class DataProvider {
         this.connstring = prop.getProperty("databaseUrl");
         this.user = prop.getProperty("databaseUser");
         this.pass = prop.getProperty("databasePassword");
-        System.out.println("Connecting to "+connstring);
+        System.out.println("Connecting to " + connstring);
         // Create Reference Object set
         this.refSet = new HashSet<IReferenceObject>();
         try {
-            this.conn = DriverManager.getConnection(this.connstring,this.user,this.pass);
+            this.conn = DriverManager.getConnection(this.connstring, this.user, this.pass);
         } catch (Exception e) {
             System.out.println("Connection failed");
             e.printStackTrace();
@@ -123,12 +76,13 @@ public class DataProvider {
             while (refResults.next()) {
                 featureSet = new VarstarFeatureSet();
                 type = refResults.getString("type");
-                BeanUtils.setProperty(featureSet,"timeseriesObs",om.readValue(refResults.getString("timeseries"), new TypeReference<Map<Double,Double>>(){}));
-                for(int i = 0; i<fields.length;i++){
-                    if(fields[i].getType() == Double.class){
+                BeanUtils.setProperty(featureSet, "timeseriesObs", om.readValue(refResults.getString("timeseries"), new TypeReference<Map<Double, Double>>() {
+                }));
+                for (int i = 0; i < fields.length; i++) {
+                    if (fields[i].getType() == Double.class) {
                         try {
                             Optional<Double> val = Optional.of((Double) refResults.getDouble(fields[i].getAnnotation(Column.class).name()));
-                            BeanUtils.setProperty(featureSet,fields[i].getName(),val.orElse(0.0));
+                            BeanUtils.setProperty(featureSet, fields[i].getName(), val.orElse(0.0));
                         } catch (Error e) {
                             e.printStackTrace();
                             return;
@@ -138,7 +92,7 @@ public class DataProvider {
                 refobj = new VarstarsRef(featureSet, type);
                 try {
                     this.refSet.add(refobj);
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                     return;
                 }
@@ -163,12 +117,13 @@ public class DataProvider {
             while (igResults.next()) {
                 featureSet = new VarstarFeatureSet();
                 name = igResults.getString("object_id");
-                BeanUtils.setProperty(featureSet,"timeseriesObs",om.readValue(igResults.getString("timeseries"), new TypeReference<Map<Double,Double>>(){}));
-                for(int i = 0; i<fields.length;i++){
-                    if(fields[i].getType() == Double.class){
+                BeanUtils.setProperty(featureSet, "timeseriesObs", om.readValue(igResults.getString("timeseries"), new TypeReference<Map<Double, Double>>() {
+                }));
+                for (int i = 0; i < fields.length; i++) {
+                    if (fields[i].getType() == Double.class) {
                         try {
                             Optional<Double> val = Optional.of((Double) igResults.getDouble(fields[i].getAnnotation(Column.class).name()));
-                            BeanUtils.setProperty(featureSet,fields[i].getName(),val.orElse(0.0));
+                            BeanUtils.setProperty(featureSet, fields[i].getName(), val.orElse(0.0));
                         } catch (Error e) {
                             e.printStackTrace();
                             return;
@@ -178,7 +133,7 @@ public class DataProvider {
                 igobj = new VarstarsIG(featureSet, name);
                 try {
                     this.igList.add(igobj);
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                     return;
                 }
@@ -190,6 +145,50 @@ public class DataProvider {
             e.printStackTrace();
         }
         System.out.println("ig list complete");
+    }
+
+    public static DataProvider getInstance() {
+        return DataProviderHolder.INSTANCE;
+    }
+
+    public Set<IReferenceObject> getRefSet() {
+        return this.refSet;
+    }
+
+    public List<VarstarsIG> getIgList() {
+        return this.igList;
+    }
+
+    public void saveResult(String name, String type) {
+        this.resultsMap.put(name, type);
+    }
+
+    public void commitResult(Map<String, String> resultmap) {
+        try {
+            Statement commitStatement = this.conn.createStatement();
+            String query = "INSERT into predicted_types (name, type) VALUES \n";
+            for (Map.Entry<String, String> entry : resultmap.entrySet()) {
+                query += String.format("('%s','%s'),\n", entry.getKey(), entry.getValue());
+            }
+            query = query.substring(0, query.length() - 2);
+            System.out.println(query);
+            commitStatement.executeQuery(query);
+            commitStatement.close();
+        } catch (Exception e) {
+            System.out.println(String.format("Result insertion failed"));
+            e.printStackTrace();
+        }
+    }
+
+    public void commitResult() {
+        if (this.resultsMap.size() != 0) {
+            commitResult(this.resultsMap);
+            this.resultsMap = new ConcurrentHashMap<>();
+        }
+    }
+
+    private static class DataProviderHolder {
+        private static final DataProvider INSTANCE = new DataProvider();
     }
 }
 

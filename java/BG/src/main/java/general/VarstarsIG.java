@@ -2,6 +2,7 @@
  * Created by gajdzis on 6/7/17.
  */
 package general;
+
 import pl.ls.comparators.base.monolithic.IMonolithicCOComparator;
 import pl.ls.networks.layers.base.AbstractLayer;
 import pl.ls.objects.compound.base.IReferenceObject;
@@ -28,25 +29,22 @@ public class VarstarsIG extends VarstarsCO implements IMonolithicInputGranule<Va
     }
 
 
-	@Override
-	public void addResembledObject(
-			IMonolithicCOComparator<VarstarFeatureSet> cmp,
-			IReferenceObject ref, double sim) {
-		// TODO Auto-generated method stub
-		igHelper.addResembledObject(cmp, ref, sim);
-	}
+    @Override
+    public void addResembledObject(
+            IMonolithicCOComparator<VarstarFeatureSet> cmp,
+            IReferenceObject ref, double sim) {
+        // TODO Auto-generated method stub
+        igHelper.addResembledObject(cmp, ref, sim);
+    }
 
 
-	@Override
-	public void addAggregatedObject(
-			AbstractLayer<IMonolithicCOComparator<VarstarFeatureSet>, IMonolithicInputGranule<VarstarFeatureSet>, IReferenceObject> layer,
-			IReferenceObject ref, double sim) {
-		// TODO Auto-generated method stub
-		igHelper.addAggregatedObject(layer, ref, sim);
-	}
+    @Override
+    public void addAggregatedObject(
+            AbstractLayer<IMonolithicCOComparator<VarstarFeatureSet>, IMonolithicInputGranule<VarstarFeatureSet>, IReferenceObject> layer,
+            IReferenceObject ref, double sim) {
+        // TODO Auto-generated method stub
+        igHelper.addAggregatedObject(layer, ref, sim);
+    }
 
 
-
-
-	
 }

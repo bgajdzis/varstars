@@ -1,8 +1,8 @@
 package general;
 
-import java.util.Map;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import java.util.Map;
 
 @Entity
 public class VarstarFeatureSet {
@@ -239,8 +239,10 @@ public class VarstarFeatureSet {
     private Double weightedAverage;
 
 
+    public VarstarFeatureSet() {
+    }
 
-            public Map<Double, Double> getTimeseriesObs() {
+    public Map<Double, Double> getTimeseriesObs() {
         return timeseriesObs;
     }
 
@@ -1150,9 +1152,6 @@ public class VarstarFeatureSet {
 
     public void setScatterResRaw(Double scatterResRaw) {
         this.scatterResRaw = scatterResRaw;
-    }
-
-    public VarstarFeatureSet() {
     }
 
 }

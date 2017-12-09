@@ -103,7 +103,7 @@ public final class Constants {
     public static final Integer FreqAmplitudeRatio21 = 105;
     public static final Integer FreqAmplitudeRatio31 = 106;
     public static final Integer FreqFrequencyRatio21 = 107;
-    public static final Integer FreqFrequencyRatio31 =108;
+    public static final Integer FreqFrequencyRatio31 = 108;
     public static final Integer FreqModelMaxDeltaMags = 109;
     public static final Integer FreqModelMinDeltaMags = 110;
     public static final Integer FreqModelPhi1Phi2 = 111;
@@ -119,7 +119,7 @@ public final class Constants {
     public static final Integer P2pScatterPfoldOverMad = 121;
     public static final Integer P2pSsqrDiffOverVar = 122;
     public static final Integer ScatterResRaw = 123;
-    public static final Integer TimeseriesDTW= 124;
+    public static final Integer TimeseriesDTW = 124;
 
     public static final Class[] allDblComparators = {
             AmplitudeMCOC.class,
