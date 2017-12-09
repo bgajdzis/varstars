@@ -67,7 +67,7 @@ public class DataProvider {
         }
         try {
             Statement refGet = this.conn.createStatement();
-            ResultSet refResults = refGet.executeQuery("SELECT * FROM reference_timeseries TABLESAMPLE BERNOULLI (25)"); //TODO: fix hardcoded queries
+            ResultSet refResults = refGet.executeQuery("SELECT * FROM reference_timeseries"); //TODO: fix hardcoded queries
             VarstarsRef refobj = null;
             String type = null;
             VarstarFeatureSet featureSet = null;
