@@ -1,11 +1,3 @@
-import comparators.*;
-import general.*;
-import pl.ls.objects.compound.base.IReferenceObject;
-import java.util.*;
-import org.junit.Test;
-import java.util.Set;
-
-
 public class MCOCTest {
 
 /*

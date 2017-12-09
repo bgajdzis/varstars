@@ -237,9 +237,428 @@ public class VarstarFeatureSet {
     private Double totalTime;
     @Column(name = "weighted_average")
     private Double weightedAverage;
-
+    @Column(name = "bls_period_1")
+    private Double blsPeriod1;
+    @Column(name = "bls_tc_1")
+    private Double blsTc1;
+    @Column(name = "signal_to_noise_1")
+    private Double blsSignalToNoise1;
+    @Column(name = "signal_residue_1")
+    private Double blsSignalResidue1;
+    @Column(name = "signal_detection_eff_1")
+    private Double blsSignalDetectionEfficiency1;
+    @Column(name = "bls_depth_1")
+    private Double blsDepth1;
+    @Column(name = "bls_qtran_1")
+    private Double blsQTransit1;
+    @Column(name = "bls_i1_1")
+    private Double blsI11;
+    @Column(name = "bls_i2_1")
+    private Double blsI21;
+    @Column(name = "bls_delta_chi2_1")
+    private Double blsDeltaChi21;
+    @Column(name = "bls_fraconenight_1")
+    private Double blsFracOneNight1;
+    @Column(name = "bls_npointsintransit_1")
+    private Double blsNPointsInTransit1;
+    @Column(name = "bls_ntransits_1")
+    private Double blsNTransits1;
+    @Column(name = "bls_npointsbeforetransit_1")
+    private Double blsNPointsBeforeTransit1;
+    @Column(name = "bls_npointsaftertransit_1")
+    private Double blsNPointsAfterTransit1;
+    @Column(name = "red_noise_1")
+    private Double blsRedNoise1;
+    @Column(name = "white_noise_1")
+    private Double blsWhiteNoise1;
+    @Column(name = "signal_to_pink_noise_1")
+    private Double blsSignalToPinkNoise1;
+    @Column(name = "bls_period_2")
+    private Double blsPeriod2;
+    @Column(name = "bls_tc_2")
+    private Double blsTc2;
+    @Column(name = "signal_to_noise_2")
+    private Double blsSignalToNoise2;
+    @Column(name = "signal_residue_2")
+    private Double blsSignalResidue2;
+    @Column(name = "signal_detection_eff_2")
+    private Double blsSignalDetectionEfficiency2;
+    @Column(name = "bls_depth_2")
+    private Double blsDepth2;
+    @Column(name = "bls_qtran_2")
+    private Double blsQTransit2;
+    @Column(name = "bls_i1_2")
+    private Double blsI12;
+    @Column(name = "bls_i2_2")
+    private Double blsI22;
+    @Column(name = "bls_delta_chi2_2")
+    private Double blsDeltaChi22;
+    @Column(name = "bls_fraconenight_2")
+    private Double blsFracOneNight2;
+    @Column(name = "bls_npointsintransit_2")
+    private Double blsNPointsInTransit2;
+    @Column(name = "bls_ntransits_2")
+    private Double blsNTransits2;
+    @Column(name = "bls_npointsbeforetransit_2")
+    private Double blsNPointsBeforeTransit2;
+    @Column(name = "bls_npointsaftertransit_2")
+    private Double blsNPointsAfterTransit2;
+    @Column(name = "red_noise_2")
+    private Double blsRedNoise2;
+    @Column(name = "white_noise_2")
+    private Double blsWhiteNoise2;
+    @Column(name = "signal_to_pink_noise_2")
+    private Double blsSignalToPinkNoise2;
+    @Column(name = "period_inverse_transit")
+    private Double periodInverseTransit;
+    @Column(name = "delta_chi2_inverse_transit")
+    private Double deltaChi2InverseTransit;
+    @Column(name = "bls_meanmag")
+    private Double blsMeanMag;
+    @Column(name = "alarm")
+    private Double alarm;
+    @Column(name = "chi2_2_dof")
+    private Double chi22Dof;
+    @Column(name = "weighted_mean_mag")
+    private Double weightedMeanMag;
 
     public VarstarFeatureSet() {
+    }
+
+    public Double getBlsPeriod1() {
+        return blsPeriod1;
+    }
+
+    public void setBlsPeriod1(Double blsPeriod1) {
+        this.blsPeriod1 = blsPeriod1;
+    }
+
+    public Double getBlsTc1() {
+        return blsTc1;
+    }
+
+    public void setBlsTc1(Double blsTc1) {
+        this.blsTc1 = blsTc1;
+    }
+
+    public Double getBlsSignalToNoise1() {
+        return blsSignalToNoise1;
+    }
+
+    public void setBlsSignalToNoise1(Double blsSignalToNoise1) {
+        this.blsSignalToNoise1 = blsSignalToNoise1;
+    }
+
+    public Double getBlsSignalResidue1() {
+        return blsSignalResidue1;
+    }
+
+    public void setBlsSignalResidue1(Double blsSignalResidue1) {
+        this.blsSignalResidue1 = blsSignalResidue1;
+    }
+
+    public Double getBlsSignalDetectionEfficiency1() {
+        return blsSignalDetectionEfficiency1;
+    }
+
+    public void setBlsSignalDetectionEfficiency1(Double blsSignalDetectionEfficiency1) {
+        this.blsSignalDetectionEfficiency1 = blsSignalDetectionEfficiency1;
+    }
+
+    public Double getBlsDepth1() {
+        return blsDepth1;
+    }
+
+    public void setBlsDepth1(Double blsDepth1) {
+        this.blsDepth1 = blsDepth1;
+    }
+
+    public Double getBlsQTransit1() {
+        return blsQTransit1;
+    }
+
+    public void setBlsQTransit1(Double blsQTransit1) {
+        this.blsQTransit1 = blsQTransit1;
+    }
+
+    public Double getBlsI11() {
+        return blsI11;
+    }
+
+    public void setBlsI11(Double blsI11) {
+        this.blsI11 = blsI11;
+    }
+
+    public Double getBlsI21() {
+        return blsI21;
+    }
+
+    public void setBlsI21(Double blsI21) {
+        this.blsI21 = blsI21;
+    }
+
+    public Double getBlsDeltaChi21() {
+        return blsDeltaChi21;
+    }
+
+    public void setBlsDeltaChi21(Double blsDeltaChi21) {
+        this.blsDeltaChi21 = blsDeltaChi21;
+    }
+
+    public Double getBlsFracOneNight1() {
+        return blsFracOneNight1;
+    }
+
+    public void setBlsFracOneNight1(Double blsFracOneNight1) {
+        this.blsFracOneNight1 = blsFracOneNight1;
+    }
+
+    public Double getBlsNPointsInTransit1() {
+        return blsNPointsInTransit1;
+    }
+
+    public void setBlsNPointsInTransit1(Double blsNPointsInTransit1) {
+        this.blsNPointsInTransit1 = blsNPointsInTransit1;
+    }
+
+    public Double getBlsNTransits1() {
+        return blsNTransits1;
+    }
+
+    public void setBlsNTransits1(Double blsNTransits1) {
+        this.blsNTransits1 = blsNTransits1;
+    }
+
+    public Double getBlsNPointsBeforeTransit1() {
+        return blsNPointsBeforeTransit1;
+    }
+
+    public void setBlsNPointsBeforeTransit1(Double blsNPointsBeforeTransit1) {
+        this.blsNPointsBeforeTransit1 = blsNPointsBeforeTransit1;
+    }
+
+    public Double getBlsNPointsAfterTransit1() {
+        return blsNPointsAfterTransit1;
+    }
+
+    public void setBlsNPointsAfterTransit1(Double blsNPointsAfterTransit1) {
+        this.blsNPointsAfterTransit1 = blsNPointsAfterTransit1;
+    }
+
+    public Double getBlsRedNoise1() {
+        return blsRedNoise1;
+    }
+
+    public void setBlsRedNoise1(Double blsRedNoise1) {
+        this.blsRedNoise1 = blsRedNoise1;
+    }
+
+    public Double getBlsWhiteNoise1() {
+        return blsWhiteNoise1;
+    }
+
+    public void setBlsWhiteNoise1(Double blsWhiteNoise1) {
+        this.blsWhiteNoise1 = blsWhiteNoise1;
+    }
+
+    public Double getBlsSignalToPinkNoise1() {
+        return blsSignalToPinkNoise1;
+    }
+
+    public void setBlsSignalToPinkNoise1(Double blsSignalToPinkNoise1) {
+        this.blsSignalToPinkNoise1 = blsSignalToPinkNoise1;
+    }
+
+    public Double getBlsPeriod2() {
+        return blsPeriod2;
+    }
+
+    public void setBlsPeriod2(Double blsPeriod2) {
+        this.blsPeriod2 = blsPeriod2;
+    }
+
+    public Double getBlsTc2() {
+        return blsTc2;
+    }
+
+    public void setBlsTc2(Double blsTc2) {
+        this.blsTc2 = blsTc2;
+    }
+
+    public Double getBlsSignalToNoise2() {
+        return blsSignalToNoise2;
+    }
+
+    public void setBlsSignalToNoise2(Double blsSignalToNoise2) {
+        this.blsSignalToNoise2 = blsSignalToNoise2;
+    }
+
+    public Double getBlsSignalResidue2() {
+        return blsSignalResidue2;
+    }
+
+    public void setBlsSignalResidue2(Double blsSignalResidue2) {
+        this.blsSignalResidue2 = blsSignalResidue2;
+    }
+
+    public Double getBlsSignalDetectionEfficiency2() {
+        return blsSignalDetectionEfficiency2;
+    }
+
+    public void setBlsSignalDetectionEfficiency2(Double blsSignalDetectionEfficiency2) {
+        this.blsSignalDetectionEfficiency2 = blsSignalDetectionEfficiency2;
+    }
+
+    public Double getBlsDepth2() {
+        return blsDepth2;
+    }
+
+    public void setBlsDepth2(Double blsDepth2) {
+        this.blsDepth2 = blsDepth2;
+    }
+
+    public Double getBlsQTransit2() {
+        return blsQTransit2;
+    }
+
+    public void setBlsQTransit2(Double blsQTransit2) {
+        this.blsQTransit2 = blsQTransit2;
+    }
+
+    public Double getBlsI12() {
+        return blsI12;
+    }
+
+    public void setBlsI12(Double blsI12) {
+        this.blsI12 = blsI12;
+    }
+
+    public Double getBlsI22() {
+        return blsI22;
+    }
+
+    public void setBlsI22(Double blsI22) {
+        this.blsI22 = blsI22;
+    }
+
+    public Double getBlsDeltaChi22() {
+        return blsDeltaChi22;
+    }
+
+    public void setBlsDeltaChi22(Double blsDeltaChi22) {
+        this.blsDeltaChi22 = blsDeltaChi22;
+    }
+
+    public Double getBlsFracOneNight2() {
+        return blsFracOneNight2;
+    }
+
+    public void setBlsFracOneNight2(Double blsFracOneNight2) {
+        this.blsFracOneNight2 = blsFracOneNight2;
+    }
+
+    public Double getBlsNPointsInTransit2() {
+        return blsNPointsInTransit2;
+    }
+
+    public void setBlsNPointsInTransit2(Double blsNPointsInTransit2) {
+        this.blsNPointsInTransit2 = blsNPointsInTransit2;
+    }
+
+    public Double getBlsNTransits2() {
+        return blsNTransits2;
+    }
+
+    public void setBlsNTransits2(Double blsNTransits2) {
+        this.blsNTransits2 = blsNTransits2;
+    }
+
+    public Double getBlsNPointsBeforeTransit2() {
+        return blsNPointsBeforeTransit2;
+    }
+
+    public void setBlsNPointsBeforeTransit2(Double blsNPointsBeforeTransit2) {
+        this.blsNPointsBeforeTransit2 = blsNPointsBeforeTransit2;
+    }
+
+    public Double getBlsNPointsAfterTransit2() {
+        return blsNPointsAfterTransit2;
+    }
+
+    public void setBlsNPointsAfterTransit2(Double blsNPointsAfterTransit2) {
+        this.blsNPointsAfterTransit2 = blsNPointsAfterTransit2;
+    }
+
+    public Double getBlsRedNoise2() {
+        return blsRedNoise2;
+    }
+
+    public void setBlsRedNoise2(Double blsRedNoise2) {
+        this.blsRedNoise2 = blsRedNoise2;
+    }
+
+    public Double getBlsWhiteNoise2() {
+        return blsWhiteNoise2;
+    }
+
+    public void setBlsWhiteNoise2(Double blsWhiteNoise2) {
+        this.blsWhiteNoise2 = blsWhiteNoise2;
+    }
+
+    public Double getBlsSignalToPinkNoise2() {
+        return blsSignalToPinkNoise2;
+    }
+
+    public void setBlsSignalToPinkNoise2(Double blsSignalToPinkNoise2) {
+        this.blsSignalToPinkNoise2 = blsSignalToPinkNoise2;
+    }
+
+    public Double getPeriodInverseTransit() {
+        return periodInverseTransit;
+    }
+
+    public void setPeriodInverseTransit(Double periodInverseTransit) {
+        this.periodInverseTransit = periodInverseTransit;
+    }
+
+    public Double getDeltaChi2InverseTransit() {
+        return deltaChi2InverseTransit;
+    }
+
+    public void setDeltaChi2InverseTransit(Double deltaChi2InverseTransit) {
+        this.deltaChi2InverseTransit = deltaChi2InverseTransit;
+    }
+
+    public Double getBlsMeanMag() {
+        return blsMeanMag;
+    }
+
+    public void setBlsMeanMag(Double blsMeanMag) {
+        this.blsMeanMag = blsMeanMag;
+    }
+
+    public Double getAlarm() {
+        return alarm;
+    }
+
+    public void setAlarm(Double alarm) {
+        this.alarm = alarm;
+    }
+
+    public Double getChi22Dof() {
+        return chi22Dof;
+    }
+
+    public void setChi22Dof(Double chi22Dof) {
+        this.chi22Dof = chi22Dof;
+    }
+
+    public Double getWeightedMeanMag() {
+        return weightedMeanMag;
+    }
+
+    public void setWeightedMeanMag(Double weightedMeanMag) {
+        this.weightedMeanMag = weightedMeanMag;
     }
 
     public Map<Double, Double> getTimeseriesObs() {
@@ -490,11 +909,11 @@ public class VarstarFeatureSet {
         this.stetsonK = stetsonK;
     }
 
-    public Double getnEpochs() {
+    public Double getNEpochs() {
         return nEpochs;
     }
 
-    public void setnEpochs(Double nEpochs) {
+    public void setNEpochs(Double nEpochs) {
         this.nEpochs = nEpochs;
     }
 

@@ -120,6 +120,50 @@ public final class Constants {
     public static final Integer P2pSsqrDiffOverVar = 122;
     public static final Integer ScatterResRaw = 123;
     public static final Integer TimeseriesDTW = 124;
+    public static final Integer BlsPeriod1 = 125;
+    public static final Integer BlsTc1 = 126;
+    public static final Integer BlsSignalToNoise1 = 127;
+    public static final Integer BlsSignalResidue1 = 128;
+    public static final Integer BlsSignalDetectionEfficiency1 = 129;
+    public static final Integer BlsDepth1 = 130;
+    public static final Integer BlsQTransit1 = 131;
+    public static final Integer BlsI11 = 132;
+    public static final Integer BlsI21 = 133;
+    public static final Integer BlsDeltaChi21 = 134;
+    public static final Integer BlsFracOneNight1 = 135;
+    public static final Integer BlsNPointsInTransit1 = 136;
+    public static final Integer BlsNTransits1 = 137;
+    public static final Integer BlsNPointsBeforeTransit1 = 138;
+    public static final Integer BlsNPointsAfterTransit1 = 139;
+    public static final Integer BlsRedNoise1 = 140;
+    public static final Integer BlsWhiteNoise1 = 141;
+    public static final Integer BlsSignalToPinkNoise1 = 142;
+    public static final Integer BlsPeriod2 = 143;
+    public static final Integer BlsTc2 = 144;
+    public static final Integer BlsSignalToNoise2 = 145;
+    public static final Integer BlsSignalResidue2 = 146;
+    public static final Integer BlsSignalDetectionEfficiency2 = 147;
+    public static final Integer BlsDepth2 = 148;
+    public static final Integer BlsQTransit2 = 149;
+    public static final Integer BlsI12 = 150;
+    public static final Integer BlsI22 = 151;
+    public static final Integer BlsDeltaChi22 = 152;
+    public static final Integer BlsFracOneNight2 = 153;
+    public static final Integer BlsNPointsInTransit2 = 154;
+    public static final Integer BlsNTransits2 = 155;
+    public static final Integer BlsNPointsBeforeTransit2 = 156;
+    public static final Integer BlsNPointsAfterTransit2 = 157;
+    public static final Integer BlsRedNoise2 = 158;
+    public static final Integer BlsWhiteNoise2 = 159;
+    public static final Integer BlsSignalToPinkNoise2 = 160;
+    public static final Integer PeriodInverseTransit = 161;
+    public static final Integer DeltaChi2InverseTransit = 162;
+    public static final Integer BlsMeanMag = 163;
+    public static final Integer Alarm = 164;
+    public static final Integer Chi22Dof = 165;
+    public static final Integer WeightedMeanMag = 166;
+    public static final Integer NEpochs = 167;
+
 
     public static final Class[] allDblComparators = {
             AmplitudeMCOC.class,
@@ -130,12 +174,12 @@ public final class Constants {
             FluxPercentileRatio50MCOC.class,
             FluxPercentileRatio65MCOC.class,
             FluxPercentileRatio80MCOC.class,
-            /*MedianDoubleToSingleStepMCOC.class,
+            MedianDoubleToSingleStepMCOC.class,
             MeanDoubleToSingleStepMCOC.class,
             StdDoubleToSingleStepMCOC.class,
             CadsMedianMCOC.class,
             CadsMeanMCOC.class,
-            CadsStdMCOC.class,*/
+            CadsStdMCOC.class,
             ErrMedianMCOC.class,
             ErrMeanMCOC.class,
             ErrStdMCOC.class,
@@ -152,10 +196,10 @@ public final class Constants {
             StetsonMMCOC.class,
             StetsonKMCOC.class,
             StetsonJMCOC.class,
-            //TotalTimeMCOC.class,
-            //AvgTMCOC.class,
+            TotalTimeMCOC.class,
+            AvgTMCOC.class,
             MeanMCOC.class,
-            /*CadProbs1MCOC.class,
+            CadProbs1MCOC.class,
             CadProbs10MCOC.class,
             CadProbs20MCOC.class,
             CadProbs30MCOC.class,
@@ -183,7 +227,7 @@ public final class Constants {
             AllTimesNHistPeak1BinMCOC.class,
             AllTimesNHistPeak2BinMCOC.class,
             AllTimesNHistPeak3BinMCOC.class,
-            AllTimesNHistPeak4BinMCOC.class,*/
+            AllTimesNHistPeak4BinMCOC.class,
             PeriodFastMCOC.class,
             QsoLogChi2QsoNuMCOC.class,
             QsoLogChi2NuNullChi2NuMCOC.class,
@@ -233,6 +277,49 @@ public final class Constants {
             P2pScatterOverMadMCOC.class,
             P2pScatterPfoldOverMadMCOC.class,
             P2pSsqrDiffOverVarMCOC.class,
-            ScatterResRawMCOC.class
+            ScatterResRawMCOC.class,
+            BlsPeriod1MCOC.class,
+            BlsTc1MCOC.class,
+            BlsSignalToNoise1MCOC.class,
+            BlsSignalResidue1MCOC.class,
+            BlsSignalDetectionEfficiency1MCOC.class,
+            BlsDepth1MCOC.class,
+            BlsQTransit1MCOC.class,
+            BlsI11MCOC.class,
+            BlsI21MCOC.class,
+            BlsDeltaChi21MCOC.class,
+            BlsFracOneNight1MCOC.class,
+            BlsNPointsInTransit1MCOC.class,
+            BlsNTransits1MCOC.class,
+            BlsNPointsBeforeTransit1MCOC.class,
+            BlsNPointsAfterTransit1MCOC.class,
+            BlsRedNoise1MCOC.class,
+            BlsWhiteNoise1MCOC.class,
+            BlsSignalToPinkNoise1MCOC.class,
+            BlsPeriod2MCOC.class,
+            BlsTc2MCOC.class,
+            BlsSignalToNoise2MCOC.class,
+            BlsSignalResidue2MCOC.class,
+            BlsSignalDetectionEfficiency2MCOC.class,
+            BlsDepth2MCOC.class,
+            BlsQTransit2MCOC.class,
+            BlsI12MCOC.class,
+            BlsI22MCOC.class,
+            BlsDeltaChi22MCOC.class,
+            BlsFracOneNight2MCOC.class,
+            BlsNPointsInTransit2MCOC.class,
+            BlsNTransits2MCOC.class,
+            BlsNPointsBeforeTransit2MCOC.class,
+            BlsNPointsAfterTransit2MCOC.class,
+            BlsRedNoise2MCOC.class,
+            BlsWhiteNoise2MCOC.class,
+            BlsSignalToPinkNoise2MCOC.class,
+            PeriodInverseTransitMCOC.class,
+            DeltaChi2InverseTransitMCOC.class,
+            BlsMeanMagMCOC.class,
+            AlarmMCOC.class,
+            Chi22DofMCOC.class,
+            WeightedMeanMagMCOC.class,
+            NEpochsMCOC.class,
     };
 }
