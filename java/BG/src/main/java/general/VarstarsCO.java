@@ -467,6 +467,178 @@ public class VarstarsCO extends AbstractMonolithicObject<VarstarFeatureSet> {
         return origObject.getScatterResRaw();
     }
 
+    public Double getBlsPeriod1() {
+        return origObject.getBlsPeriod1();
+    }
+
+    public Double getBlsTc1() {
+        return origObject.getBlsTc1();
+    }
+
+    public Double getBlsSignalToNoise1() {
+        return origObject.getBlsSignalToNoise1();
+    }
+
+    public Double getBlsSignalResidue1() {
+        return origObject.getBlsSignalResidue1();
+    }
+
+    public Double getBlsSignalDetectionEfficiency1() {
+        return origObject.getBlsSignalDetectionEfficiency1();
+    }
+
+    public Double getBlsDepth1() {
+        return origObject.getBlsDepth1();
+    }
+
+    public Double getBlsQTransit1() {
+        return origObject.getBlsQTransit1();
+    }
+
+    public Double getBlsI11() {
+        return origObject.getBlsI11();
+    }
+
+    public Double getBlsI21() {
+        return origObject.getBlsI21();
+    }
+
+    public Double getBlsDeltaChi21() {
+        return origObject.getBlsDeltaChi21();
+    }
+
+    public Double getBlsFracOneNight1() {
+        return origObject.getBlsFracOneNight1();
+    }
+
+    public Double getBlsNPointsInTransit1() {
+        return origObject.getBlsNPointsInTransit1();
+    }
+
+    public Double getBlsNTransits1() {
+        return origObject.getBlsNTransits1();
+    }
+
+    public Double getBlsNPointsBeforeTransit1() {
+        return origObject.getBlsNPointsBeforeTransit1();
+    }
+
+    public Double getBlsNPointsAfterTransit1() {
+        return origObject.getBlsNPointsAfterTransit1();
+    }
+
+    public Double getBlsRedNoise1() {
+        return origObject.getBlsRedNoise1();
+    }
+
+    public Double getBlsWhiteNoise1() {
+        return origObject.getBlsWhiteNoise1();
+    }
+
+    public Double getBlsSignalToPinkNoise1() {
+        return origObject.getBlsSignalToPinkNoise1();
+    }
+
+    public Double getBlsPeriod2() {
+        return origObject.getBlsPeriod2();
+    }
+
+    public Double getBlsTc2() {
+        return origObject.getBlsTc2();
+    }
+
+    public Double getBlsSignalToNoise2() {
+        return origObject.getBlsSignalToNoise2();
+    }
+
+    public Double getBlsSignalResidue2() {
+        return origObject.getBlsSignalResidue2();
+    }
+
+    public Double getBlsSignalDetectionEfficiency2() {
+        return origObject.getBlsSignalDetectionEfficiency2();
+    }
+
+    public Double getBlsDepth2() {
+        return origObject.getBlsDepth2();
+    }
+
+    public Double getBlsQTransit2() {
+        return origObject.getBlsQTransit2();
+    }
+
+    public Double getBlsI12() {
+        return origObject.getBlsI12();
+    }
+
+    public Double getBlsI22() {
+        return origObject.getBlsI22();
+    }
+
+    public Double getBlsDeltaChi22() {
+        return origObject.getBlsDeltaChi22();
+    }
+
+    public Double getBlsFracOneNight2() {
+        return origObject.getBlsFracOneNight2();
+    }
+
+    public Double getBlsNPointsInTransit2() {
+        return origObject.getBlsNPointsInTransit2();
+    }
+
+    public Double getBlsNTransits2() {
+        return origObject.getBlsNTransits2();
+    }
+
+    public Double getBlsNPointsBeforeTransit2() {
+        return origObject.getBlsNPointsBeforeTransit2();
+    }
+
+    public Double getBlsNPointsAfterTransit2() {
+        return origObject.getBlsNPointsAfterTransit2();
+    }
+
+    public Double getBlsRedNoise2() {
+        return origObject.getBlsRedNoise2();
+    }
+
+    public Double getBlsWhiteNoise2() {
+        return origObject.getBlsWhiteNoise2();
+    }
+
+    public Double getBlsSignalToPinkNoise2() {
+        return origObject.getBlsSignalToPinkNoise2();
+    }
+
+    public Double getPeriodInverseTransit() {
+        return origObject.getPeriodInverseTransit();
+    }
+
+    public Double getDeltaChi2InverseTransit() {
+        return origObject.getDeltaChi2InverseTransit();
+    }
+
+    public Double getBlsMeanMag() {
+        return origObject.getBlsMeanMag();
+    }
+
+    public Double getAlarm() {
+        return origObject.getAlarm();
+    }
+
+    public Double getChi22Dof() {
+        return origObject.getChi22Dof();
+    }
+
+    public Double getWeightedMeanMag() {
+        return origObject.getWeightedMeanMag();
+    }
+
+    public Double getNEpochs() {
+        return origObject.getNEpochs();
+    }
+
     public Map<Double, Double> getTimeseries() {
         return origObject.getTimeseriesObs();
     }
