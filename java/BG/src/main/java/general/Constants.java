@@ -5,7 +5,7 @@ import comparators.*;
 public final class Constants {
 
     public static final Double nonPerP = 0.1;
-    public static final Double perP = 0.7;
+    public static final Double perP = 0.9;
 
     public static final Integer Amplitude = 1;
     public static final Integer PercentageAmplitude = 2;
