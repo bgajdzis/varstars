@@ -32,26 +32,26 @@ public class Runner {
                             String key = entry.getKey().getReferenceName();
                             String value = entry.getValue().toString();
                             System.out.println(name + ": " + key + " " + value);
-                            dp.saveResult(name, key);
+                            dp.saveResult(name, key+" "+value);
                         }
                     } else {
                         String key = "NPer";
                         String value = "No other matches";
                         System.out.println(name + ": " + key + " " + value);
-                        dp.saveResult(name, key);
+                        dp.saveResult(name, key+" "+value);
                     }
                 }
                 iter.remove();
                 if (++i % 1000 == 0) {
                     dp.commitResult();
-                    System.out.println("Przetworzono " + String.valueOf(i) + " obiektów w " + String.valueOf((System.currentTimeMillis() - t0) / 60000) + "minut");
+                    System.out.println("Processed " + String.valueOf(i) + " objects in " + String.valueOf((System.currentTimeMillis() - t0) / 60000) + "minutes");
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             dp.commitResult();
-            System.out.println("Ukończono");
+            System.out.println("Done");
         }
     }
 }

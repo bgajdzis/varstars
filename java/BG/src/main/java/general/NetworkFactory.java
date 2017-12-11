@@ -99,4 +99,34 @@ public class NetworkFactory {
         firstNetwork.addLayer(firstOutputLayer, FilterTranslationType.RESULTS_FROM_PREVIOUS_LAYER, new COParameter<IMonolithicCOComparator<VarstarFeatureSet>, IMonolithicInputGranule<VarstarFeatureSet>, IReferenceObject>(firstMidLayer));
         return firstNetwork;
     }
+
+    public VarstarsNetwork getFirstLayerTestNetwork(Set<IReferenceObject> refSet) throws ComparatorException, NetworkException {
+
+        @SuppressWarnings("unused")
+        Map<IReferenceObject, Set<AbstractExceptionRule>> mapFamilyExceptions = new HashMap<IReferenceObject, Set<AbstractExceptionRule>>();
+        Cloner cloner = new Cloner();
+        Set<IReferenceObject> refSetClone = cloner.deepClone(refSet);
+        VarstarsNetwork firstNetwork = new VarstarsNetwork("Siec Testowa");
+        firstNetwork.setNormalization4Comparators(new Pair<SharpenType, COParameter<IMonolithicCOComparator<VarstarFeatureSet>, IMonolithicInputGranule<VarstarFeatureSet>, IReferenceObject>>(SharpenType.SHARPEN_E_X, new COParameter<IMonolithicCOComparator<VarstarFeatureSet>, IMonolithicInputGranule<VarstarFeatureSet>, IReferenceObject>(2.0)));
+        VarstarsInputLayer firstInputLayer = new VarstarsInputLayer("firstil", refSetClone, new HashMap<IReferenceObject, Set<AbstractExceptionRule>>());
+        Class[] comparators = Constants.allDblComparators;
+        for (Class compToLayer : comparators) {
+            Object testComp = null;
+            try {
+                Constructor<?> cons = compToLayer.getConstructor(String.class);
+                String compName = compToLayer.getName();
+                testComp = cons.newInstance(new Object[]{compName});
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (testComp == null) {
+                testComp = new AmplitudeMCOC("testComp");
+            }
+            firstInputLayer.addComparator((AbstractMonolithicCOComparator<VarstarFeatureSet>) testComp, 1);
+        }
+        VarstarsOutputLayer firstOutputLayer = new VarstarsOutputLayer("firstol");
+        firstNetwork.addLayer(firstInputLayer, FilterTranslationType.TOP_N, new COParameter<IMonolithicCOComparator<VarstarFeatureSet>, IMonolithicInputGranule<VarstarFeatureSet>, IReferenceObject>(new Integer(10)));
+        firstNetwork.addLayer(firstOutputLayer, FilterTranslationType.RESULTS_FROM_PREVIOUS_LAYER, new COParameter<IMonolithicCOComparator<VarstarFeatureSet>, IMonolithicInputGranule<VarstarFeatureSet>, IReferenceObject>(firstInputLayer));
+        return firstNetwork;
+    }
 }
