@@ -119,7 +119,8 @@ public class NetworkFactory {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-	    Integer weight = (compToLayer.getName()=="Freq1SignifMCOC") ? 2 : 1; 
+            Integer weight = 1;
+	    //Integer weight = (compToLayer.getName()=="Freq1SignifMCOC") ? 2 : 1; 
             firstInputLayer.addComparator((AbstractMonolithicCOComparator<VarstarFeatureSet>) testComp, weight);
         }
         VarstarsOutputLayer firstOutputLayer = new VarstarsOutputLayer("firstol");
