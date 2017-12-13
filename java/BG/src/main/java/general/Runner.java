@@ -1,7 +1,7 @@
 package general;
 
 import pl.ls.objects.compound.base.IReferenceObject;
-
+import genetic.*;
 import java.util.*;
 
 public class Runner {
@@ -10,6 +10,10 @@ public class Runner {
     }
 
     private static void singleRun(){
+        System.out.println(singleRun(Constants.allDblComparators));
+    }
+
+    private static Double singleRun(Map<Class,Integer> firstLayerComparators){
         String runId = UUID.randomUUID().toString();
         Set<IReferenceObject> refSet;
         List<VarstarsIG> inputList = null;
@@ -21,7 +25,7 @@ public class Runner {
         int i = 0;
         long t0 = System.currentTimeMillis();
         try {
-            VarstarsNetwork testNetwork = nf.getFirstLayerTestNetwork(refSet);
+            VarstarsNetwork testNetwork = nf.getFirstLayerTestNetwork(refSet,firstLayerComparators);
             for (Iterator<VarstarsIG> iter = inputList.listIterator(); iter.hasNext(); ) {
                 VarstarsIG vig = iter.next();
                 testNetwork.setInput(vig);
@@ -55,8 +59,9 @@ public class Runner {
             dp.commitResult();
             System.out.println("Done");
         }
-        System.out.println("F1 Score = " + String.valueOf(dp.getF1Score(runId)));
-
+        Double f1Score = dp.getF1Score(runId);
+        System.out.println("F1 Score = " + Double.toString(f1Score));
+        return f1Score;
     }
 
     private static void multipleRuns(){

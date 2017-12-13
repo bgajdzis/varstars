@@ -25,22 +25,6 @@ import java.util.Set;
 
 public class NetworkFactory {
 
-    /*
-    public VarstarsNetwork getTestNetwork(Set<IReferenceObject> refSet) throws ComparatorException, NetworkException {
-    
-    	@SuppressWarnings("unused")
-		Map<IReferenceObject, Set<AbstractExceptionRule>> mapFamilyExceptions = new HashMap<IReferenceObject, Set<AbstractExceptionRule>>();
-        VarstarsNetwork testNetwork = new VarstarsNetwork("Siec Testowa");
-        testNetwork.setNormalization4Comparators(new Pair<SharpenType, COParameter<IMonolithicCOComparator<VarstarFeatureSet>, IMonolithicInputGranule<VarstarFeatureSet>, IReferenceObject>>(SharpenType.SHARPEN_E_X, new COParameter<IMonolithicCOComparator<VarstarFeatureSet>,IMonolithicInputGranule<VarstarFeatureSet>,IReferenceObject>(2.0)));
-        VarstarsInputLayer testInputLayer = new VarstarsInputLayer("testil", refSet, new HashMap<IReferenceObject, Set<AbstractExceptionRule>>());
-        testInputLayer.addComparator(new AmplitudeMCOC("test_comp"),1);
-        VarstarsOutputLayer testOutputLayer = new VarstarsOutputLayer("testol");
-        testNetwork.addLayer(testInputLayer,FilterTranslationType.TOP_N,new COParameter<IMonolithicCOComparator<VarstarFeatureSet>, IMonolithicInputGranule<VarstarFeatureSet>, IReferenceObject>(1));
-        testNetwork.addLayer(testOutputLayer,FilterTranslationType.NONE,new COParameter<IMonolithicCOComparator<VarstarFeatureSet>, IMonolithicInputGranule<VarstarFeatureSet>, IReferenceObject>(testInputLayer));
-        return testNetwork;
-    }
-    */
-
     public VarstarsNetwork getTestNetwork(Class compToTest, Set<IReferenceObject> refSet) throws ComparatorException, NetworkException {
 
         @SuppressWarnings("unused")
@@ -67,7 +51,7 @@ public class NetworkFactory {
         return testNetwork;
     }
 
-    public VarstarsNetwork getFirstNetwork(Set<IReferenceObject> refSet) throws ComparatorException, NetworkException {
+    public VarstarsNetwork getFirstNetwork(Set<IReferenceObject> refSet, Map<Class,Integer> firstLayerComparators) throws ComparatorException, NetworkException {
 
         @SuppressWarnings("unused")
         Map<IReferenceObject, Set<AbstractExceptionRule>> mapFamilyExceptions = new HashMap<IReferenceObject, Set<AbstractExceptionRule>>();
@@ -77,7 +61,7 @@ public class NetworkFactory {
         firstNetwork.setNormalization4Comparators(new Pair<SharpenType, COParameter<IMonolithicCOComparator<VarstarFeatureSet>, IMonolithicInputGranule<VarstarFeatureSet>, IReferenceObject>>(SharpenType.SHARPEN_E_X, new COParameter<IMonolithicCOComparator<VarstarFeatureSet>, IMonolithicInputGranule<VarstarFeatureSet>, IReferenceObject>(2.0)));
         VarstarsInputLayer firstInputLayer = new VarstarsInputLayer("firstil", refSetClone, new HashMap<IReferenceObject, Set<AbstractExceptionRule>>());
         Integer weight = null;
-        Map<Class,Integer> comparators = Constants.allDblComparators;
+        Map<Class,Integer> comparators = firstLayerComparators;
         for (Map.Entry<Class,Integer> compToLayer : comparators.entrySet()) {
             Object testComp = null;
             try {
@@ -102,7 +86,7 @@ public class NetworkFactory {
         return firstNetwork;
     }
 
-    public VarstarsNetwork getFirstLayerTestNetwork(Set<IReferenceObject> refSet) throws ComparatorException, NetworkException {
+    public VarstarsNetwork getFirstLayerTestNetwork(Set<IReferenceObject> refSet, Map<Class,Integer> firstLayerComparators) throws ComparatorException, NetworkException {
 
         @SuppressWarnings("unused")
         Map<IReferenceObject, Set<AbstractExceptionRule>> mapFamilyExceptions = new HashMap<IReferenceObject, Set<AbstractExceptionRule>>();
@@ -112,7 +96,7 @@ public class NetworkFactory {
         firstNetwork.setNormalization4Comparators(new Pair<SharpenType, COParameter<IMonolithicCOComparator<VarstarFeatureSet>, IMonolithicInputGranule<VarstarFeatureSet>, IReferenceObject>>(SharpenType.SHARPEN_E_X, new COParameter<IMonolithicCOComparator<VarstarFeatureSet>, IMonolithicInputGranule<VarstarFeatureSet>, IReferenceObject>(2.0)));
         VarstarsInputLayer firstInputLayer = new VarstarsInputLayer("firstil", refSetClone, new HashMap<IReferenceObject, Set<AbstractExceptionRule>>());
         Integer weight = null;
-        Map<Class,Integer> comparators = Constants.allDblComparators;
+        Map<Class,Integer> comparators = firstLayerComparators;
         for (Map.Entry<Class,Integer> compToLayer : comparators.entrySet()) {
             Object testComp = null;
             try {
