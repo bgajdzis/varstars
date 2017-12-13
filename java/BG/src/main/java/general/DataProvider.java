@@ -170,7 +170,7 @@ public class DataProvider {
             Statement commitStatement = this.conn.createStatement();
             String query = Constants.SQLresultInsertHeader;
             for (String entry : resultmap) {
-                query += entry;
+                query += "\n(" + entry + "),";
             }
             query = query.substring(0, query.length() - 1);
             System.out.println(query);
