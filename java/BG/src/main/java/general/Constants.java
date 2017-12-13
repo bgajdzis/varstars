@@ -4,8 +4,8 @@ import comparators.*;
 
 public final class Constants {
 
-    public static final Double nonPerP = 0.4;
-    public static final Double perP = 0.8;
+    public static final Double nonPerP = 0.1;
+    public static final Double perP = 0.95;
 
     public static final Integer Amplitude = 1;
     public static final Integer PercentageAmplitude = 2;
@@ -180,9 +180,9 @@ public final class Constants {
             //CadsMedianMCOC.class,
             //CadsMeanMCOC.class,
             //CadsStdMCOC.class,
-            ErrMedianMCOC.class,
-            ErrMeanMCOC.class,
-            ErrStdMCOC.class,
+            //ErrMedianMCOC.class,
+            //ErrMeanMCOC.class,
+            //ErrStdMCOC.class,
             MaxAbsSlopeMCOC.class,
             MedianAbsStdMCOC.class,
             MaxObsMCOC.class,
@@ -198,7 +198,7 @@ public final class Constants {
             StetsonJMCOC.class,
             //TotalTimeMCOC.class,
             //AvgTMCOC.class,
-            MeanMCOC.class,
+            //MeanMCOC.class,
             //CadProbs1MCOC.class,
             //CadProbs10MCOC.class,
             //CadProbs20MCOC.class,
@@ -216,7 +216,7 @@ public final class Constants {
             //CadProbs1000000MCOC.class,
             //CadProbs5000000MCOC.class,
             //CadProbs10000000MCOC.class,
-            AllTimesNHistNumpeaksMCOC.class,
+            //AllTimesNHistNumpeaksMCOC.class,
             //AllTimesNHistPeakValMCOC.class,
             //AllTimesNHistPeak1To2MCOC.class,
             //AllTimesNHistPeak1To3MCOC.class,

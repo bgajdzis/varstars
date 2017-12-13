@@ -19,10 +19,12 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.Map.Entry;
+import java.util.AbstractMap;
 
 public class DataProvider {
 
-    private Map<String, String> resultsMap = new ConcurrentHashMap();
+    private List<Map.Entry<String,String>> resultsMap = new ArrayList();
     private Set<IReferenceObject> refSet = null;
     private List<VarstarsIG> igList = null;
     private Connection conn = null;
@@ -160,14 +162,14 @@ public class DataProvider {
     }
 
     public void saveResult(String name, String type) {
-        this.resultsMap.put(name, type);
+        this.resultsMap.add(new AbstractMap.SimpleImmutableEntry<>(name, type));
     }
 
-    public void commitResult(Map<String, String> resultmap) {
+    public void commitResult(List<Entry<String,String>> resultmap) {
         try {
             Statement commitStatement = this.conn.createStatement();
-            String query = "INSERT into predicted_types_2 (name, type) VALUES \n";
-            for (Map.Entry<String, String> entry : resultmap.entrySet()) {
+            String query = "INSERT into predicted_types (name, type) VALUES \n";
+            for (Map.Entry<String, String> entry : resultmap) {
                 query += String.format("('%s','%s'),\n", entry.getKey(), entry.getValue());
             }
             query = query.substring(0, query.length() - 2);
@@ -183,7 +185,7 @@ public class DataProvider {
     public void commitResult() {
         if (this.resultsMap.size() != 0) {
             commitResult(this.resultsMap);
-            this.resultsMap = new ConcurrentHashMap<>();
+            this.resultsMap = new ArrayList<>();
         }
     }
 

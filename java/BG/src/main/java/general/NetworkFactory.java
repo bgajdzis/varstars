@@ -119,10 +119,8 @@ public class NetworkFactory {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            if (testComp == null) {
-                testComp = new AmplitudeMCOC("testComp");
-            }
-            firstInputLayer.addComparator((AbstractMonolithicCOComparator<VarstarFeatureSet>) testComp, 1);
+	    Integer weight = (compToLayer.getName()=="Freq1SignifMCOC") ? 2 : 1; 
+            firstInputLayer.addComparator((AbstractMonolithicCOComparator<VarstarFeatureSet>) testComp, weight);
         }
         VarstarsOutputLayer firstOutputLayer = new VarstarsOutputLayer("firstol");
         firstNetwork.addLayer(firstInputLayer, FilterTranslationType.TOP_N, new COParameter<IMonolithicCOComparator<VarstarFeatureSet>, IMonolithicInputGranule<VarstarFeatureSet>, IReferenceObject>(new Integer(10)));

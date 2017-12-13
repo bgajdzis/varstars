@@ -19,7 +19,7 @@ public class Runner {
         int i = 0;
         long t0 = System.currentTimeMillis();
         try {
-            VarstarsNetwork testNetwork = nf.getFirstNetwork(refSet);
+            VarstarsNetwork testNetwork = nf.getFirstLayerTestNetwork(refSet);
             for (Iterator<VarstarsIG> iter = inputList.listIterator(); iter.hasNext(); ) {
                 VarstarsIG vig = iter.next();
                 testNetwork.setInput(vig);
@@ -36,7 +36,7 @@ public class Runner {
                         }
                     } else {
                         String key = "NPer";
-                        String value = "No other matches";
+                        String value = "0.0";
                         System.out.println(name + ": " + key + " " + value);
                         dp.saveResult(name, key+" "+value);
                     }
