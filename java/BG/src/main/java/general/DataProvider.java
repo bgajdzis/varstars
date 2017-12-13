@@ -24,7 +24,7 @@ import java.util.AbstractMap;
 
 public class DataProvider {
 
-    private List<Map.Entry<String,String>> resultsMap = new ArrayList();
+    private List<String> resultsMap = new ArrayList();
     private Set<IReferenceObject> refSet = null;
     private List<VarstarsIG> igList = null;
     private Connection conn = null;
@@ -69,7 +69,7 @@ public class DataProvider {
         }
         try {
             Statement refGet = this.conn.createStatement();
-            ResultSet refResults = refGet.executeQuery("SELECT * FROM reference_timeseries"); //TODO: fix hardcoded queries
+            ResultSet refResults = refGet.executeQuery(Constants.SQLreferenceSelect); //TODO: fix hardcoded queries
             VarstarsRef refobj = null;
             String type = null;
             VarstarFeatureSet featureSet = null;
@@ -110,7 +110,7 @@ public class DataProvider {
         this.igList = new ArrayList<VarstarsIG>();
         try {
             Statement igGet = this.conn.createStatement();
-            ResultSet igResults = igGet.executeQuery("SELECT * FROM input_timeseries");
+            ResultSet igResults = igGet.executeQuery(Constants.SQLinputGranuleSelect);
             VarstarsIG igobj = null;
             String name = null;
             VarstarFeatureSet featureSet = null;
@@ -161,20 +161,20 @@ public class DataProvider {
         return this.igList;
     }
 
-    public void saveResult(String name, String type) {
-        this.resultsMap.add(new AbstractMap.SimpleImmutableEntry<>(name, type));
+    public void saveResult(String formattedResult) {
+        this.resultsMap.add(formattedResult);
     }
 
-    public void commitResult(List<Entry<String,String>> resultmap) {
+    public void commitResult(List<String> resultmap) {
         try {
             Statement commitStatement = this.conn.createStatement();
-            String query = "INSERT into predicted_types (name, type) VALUES \n";
-            for (Map.Entry<String, String> entry : resultmap) {
-                query += String.format("('%s','%s'),\n", entry.getKey(), entry.getValue());
+            String query = Constants.SQLresultInsertHeader;
+            for (String entry : resultmap) {
+                query += entry;
             }
-            query = query.substring(0, query.length() - 2);
+            query = query.substring(0, query.length() - 1);
             System.out.println(query);
-            commitStatement.executeQuery(query);
+            commitStatement.executeUpdate(query);
             commitStatement.close();
         } catch (Exception e) {
             System.out.println(String.format("Result insertion failed"));
@@ -186,6 +186,21 @@ public class DataProvider {
         if (this.resultsMap.size() != 0) {
             commitResult(this.resultsMap);
             this.resultsMap = new ArrayList<>();
+        }
+    }
+
+    public Double getF1Score(String runId){
+        try {
+            Statement requestF1Statement = this.conn.createStatement();
+            ResultSet f1Result = requestF1Statement.executeQuery(Constants.SQLf1Getter + runId);
+            f1Result.next();
+            Double f1 = f1Result.getDouble("f1_score");
+            requestF1Statement.close();
+            return f1;
+        } catch (Exception e) {
+            System.out.println("F1 Score not retrieved due to the following problem");
+            e.printStackTrace();
+            return 0.0;
         }
     }
 

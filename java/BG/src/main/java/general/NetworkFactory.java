@@ -76,20 +76,22 @@ public class NetworkFactory {
         VarstarsNetwork firstNetwork = new VarstarsNetwork("Siec Testowa");
         firstNetwork.setNormalization4Comparators(new Pair<SharpenType, COParameter<IMonolithicCOComparator<VarstarFeatureSet>, IMonolithicInputGranule<VarstarFeatureSet>, IReferenceObject>>(SharpenType.SHARPEN_E_X, new COParameter<IMonolithicCOComparator<VarstarFeatureSet>, IMonolithicInputGranule<VarstarFeatureSet>, IReferenceObject>(2.0)));
         VarstarsInputLayer firstInputLayer = new VarstarsInputLayer("firstil", refSetClone, new HashMap<IReferenceObject, Set<AbstractExceptionRule>>());
-        Class[] comparators = Constants.allDblComparators;
-        for (Class compToLayer : comparators) {
+        Integer weight = null;
+        Map<Class,Integer> comparators = Constants.allDblComparators;
+        for (Map.Entry<Class,Integer> compToLayer : comparators.entrySet()) {
             Object testComp = null;
             try {
-                Constructor<?> cons = compToLayer.getConstructor(String.class);
-                String compName = compToLayer.getName();
+                Constructor<?> cons = compToLayer.getKey().getConstructor(String.class);
+                String compName = compToLayer.getKey().getName();
                 testComp = cons.newInstance(new Object[]{compName});
+                weight = compToLayer.getValue();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            if (testComp == null) {
-                testComp = new AmplitudeMCOC("testComp");
+            if(weight != null && weight>0){
+                firstInputLayer.addComparator((AbstractMonolithicCOComparator<VarstarFeatureSet>) testComp, weight);
+                System.out.println("Added comparator "+((AbstractMonolithicCOComparator<VarstarFeatureSet>) testComp).getName()+" with weight "+Integer.toString(weight));
             }
-            firstInputLayer.addComparator((AbstractMonolithicCOComparator<VarstarFeatureSet>) testComp, 1);
         }
         VarstarsMidLayer firstMidLayer = new VarstarsMidLayer("firstml", refSetClone, new HashMap<IReferenceObject, Set<AbstractExceptionRule>>());
         firstMidLayer.addComparator(new TimeseriesDTWMCOC("DTWCOmp"), 1);
@@ -109,19 +111,22 @@ public class NetworkFactory {
         VarstarsNetwork firstNetwork = new VarstarsNetwork("Siec Testowa");
         firstNetwork.setNormalization4Comparators(new Pair<SharpenType, COParameter<IMonolithicCOComparator<VarstarFeatureSet>, IMonolithicInputGranule<VarstarFeatureSet>, IReferenceObject>>(SharpenType.SHARPEN_E_X, new COParameter<IMonolithicCOComparator<VarstarFeatureSet>, IMonolithicInputGranule<VarstarFeatureSet>, IReferenceObject>(2.0)));
         VarstarsInputLayer firstInputLayer = new VarstarsInputLayer("firstil", refSetClone, new HashMap<IReferenceObject, Set<AbstractExceptionRule>>());
-        Class[] comparators = Constants.allDblComparators;
-        for (Class compToLayer : comparators) {
+        Integer weight = null;
+        Map<Class,Integer> comparators = Constants.allDblComparators;
+        for (Map.Entry<Class,Integer> compToLayer : comparators.entrySet()) {
             Object testComp = null;
             try {
-                Constructor<?> cons = compToLayer.getConstructor(String.class);
-                String compName = compToLayer.getName();
+                Constructor<?> cons = compToLayer.getKey().getConstructor(String.class);
+                String compName = compToLayer.getKey().getName();
                 testComp = cons.newInstance(new Object[]{compName});
+                weight = compToLayer.getValue();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            Integer weight = 1;
-	    //Integer weight = (compToLayer.getName()=="Freq1SignifMCOC") ? 2 : 1; 
-            firstInputLayer.addComparator((AbstractMonolithicCOComparator<VarstarFeatureSet>) testComp, weight);
+            if(weight != null && weight>0){
+                firstInputLayer.addComparator((AbstractMonolithicCOComparator<VarstarFeatureSet>) testComp, weight);
+                System.out.println("Added comparator "+((AbstractMonolithicCOComparator<VarstarFeatureSet>) testComp).getName()+" with weight "+Integer.toString(weight));
+            }
         }
         VarstarsOutputLayer firstOutputLayer = new VarstarsOutputLayer("firstol");
         firstNetwork.addLayer(firstInputLayer, FilterTranslationType.TOP_N, new COParameter<IMonolithicCOComparator<VarstarFeatureSet>, IMonolithicInputGranule<VarstarFeatureSet>, IReferenceObject>(new Integer(10)));

@@ -2,13 +2,15 @@ package general;
 
 import pl.ls.objects.compound.base.IReferenceObject;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class Runner {
     public static void main(String[] args) {
+        singleRun();
+    }
+
+    private static void singleRun(){
+        String runId = UUID.randomUUID().toString();
         Set<IReferenceObject> refSet;
         List<VarstarsIG> inputList = null;
         DataProvider dp = DataProvider.getInstance();
@@ -31,14 +33,14 @@ public class Runner {
                         for (Map.Entry<IReferenceObject, Double> entry : resultMap.entrySet()) {
                             String key = entry.getKey().getReferenceName();
                             String value = entry.getValue().toString();
-                            System.out.println(name + ": " + key + " " + value);
-                            dp.saveResult(name, key+" "+value);
+                            //System.out.println(name + ": " + key + " " + value);
+                            dp.saveResult(String.format("(%s),(%s),(%s),(%s)",name, key, value, runId));
                         }
                     } else {
                         String key = "NPer";
                         String value = "0.0";
-                        System.out.println(name + ": " + key + " " + value);
-                        dp.saveResult(name, key+" "+value);
+                        //System.out.println(name + ": " + key + " " + value);
+                        dp.saveResult(String.format("(%s),(%s),(%s),(%s)",name, key, value, runId));
                     }
                 }
                 iter.remove();
@@ -53,5 +55,11 @@ public class Runner {
             dp.commitResult();
             System.out.println("Done");
         }
+        System.out.println("F1 Score = " + String.valueOf(dp.getF1Score(runId)));
+
+    }
+
+    private static void multipleRuns(){
+
     }
 }
