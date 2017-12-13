@@ -48,7 +48,7 @@ public class Runner {
                     }
                 }
                 iter.remove();
-                if (++i % 100 == 0) {
+                if (++i % 1000 == 0) {
                     dp.commitResult();
                     System.out.println("Processed " + String.valueOf(i) + " objects in " + String.valueOf((System.currentTimeMillis() - t0) / 60000) + "minutes");
                 }

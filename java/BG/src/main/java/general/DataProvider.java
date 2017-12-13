@@ -173,7 +173,7 @@ public class DataProvider {
                 query += "\n(" + entry + "),";
             }
             query = query.substring(0, query.length() - 1);
-            System.out.println(query);
+            //System.out.println(query);
             commitStatement.executeUpdate(query);
             commitStatement.close();
         } catch (Exception e) {
@@ -198,7 +198,7 @@ public class DataProvider {
             requestF1Statement.close();
             return f1;
         } catch (Exception e) {
-            System.out.println("F1 Score not retrieved due to the following problem");
+            System.out.println("F1 Score not retrieved");
             e.printStackTrace();
             return 0.0;
         }
