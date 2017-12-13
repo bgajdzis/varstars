@@ -34,17 +34,17 @@ public class Runner {
                             String key = entry.getKey().getReferenceName();
                             String value = entry.getValue().toString();
                             //System.out.println(name + ": " + key + " " + value);
-                            dp.saveResult(String.format("(%s),(%s),(%s),(%s)",name, key, value, runId));
+                            dp.saveResult(String.format("'%s','%s','%s','%s'",name, key, value, runId));
                         }
                     } else {
                         String key = "NPer";
                         String value = "0.0";
                         //System.out.println(name + ": " + key + " " + value);
-                        dp.saveResult(String.format("(%s),(%s),(%s),(%s)",name, key, value, runId));
+                        dp.saveResult(String.format("'%s','%s','%s','%s'",name, key, value, runId));
                     }
                 }
                 iter.remove();
-                if (++i % 1000 == 0) {
+                if (++i % 100 == 0) {
                     dp.commitResult();
                     System.out.println("Processed " + String.valueOf(i) + " objects in " + String.valueOf((System.currentTimeMillis() - t0) / 60000) + "minutes");
                 }

@@ -57,7 +57,7 @@ public class DataProviderTest {
     @Test
     public void resultsShouldBeInserted() {
         DataProvider dataProvider = DataProvider.getInstance();
-        dataProvider.saveResult("'test','test','test','test'");
+        dataProvider.saveResult("'test','test',0,'00000000000000000000000000000000'");
         dataProvider.commitResult();
     }
 }
