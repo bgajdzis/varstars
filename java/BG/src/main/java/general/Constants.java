@@ -168,7 +168,7 @@ public final class Constants {
     public static final Integer WeightedMeanMag = 166;
     public static final Integer NEpochs = 167;
 
-    public static final String SQLresultInsertHeader = "INSERT INTO predicted_types (name,type,value,run_id) VALUES";
+    public static final String SQLresultInsertHeader = "INSERT INTO predicted_types (name,type,confidence,run_id) VALUES";
     public static final String SQLreferenceSelect = "SELECT * FROM reference_timeseries";
     public static final String SQLinputGranuleSelect = "SELECT * FROM input_timeseries";
     public static final String SQLf1Getter = "SELECT * FROM scores WHERE run_id =";
