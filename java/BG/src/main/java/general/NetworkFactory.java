@@ -74,7 +74,7 @@ public class NetworkFactory {
             }
             if(weight != null && weight>0){
                 firstInputLayer.addComparator((AbstractMonolithicCOComparator<VarstarFeatureSet>) testComp, weight);
-                System.out.println("Added comparator "+((AbstractMonolithicCOComparator<VarstarFeatureSet>) testComp).getName()+" with weight "+Integer.toString(weight));
+                //System.out.println("Added comparator "+((AbstractMonolithicCOComparator<VarstarFeatureSet>) testComp).getName()+" with weight "+Integer.toString(weight));
             }
         }
         VarstarsMidLayer firstMidLayer = new VarstarsMidLayer("firstml", refSetClone, new HashMap<IReferenceObject, Set<AbstractExceptionRule>>());
@@ -109,11 +109,11 @@ public class NetworkFactory {
             }
             if(weight != null && weight>0){
                 firstInputLayer.addComparator((AbstractMonolithicCOComparator<VarstarFeatureSet>) testComp, weight);
-                System.out.println("Added comparator "+((AbstractMonolithicCOComparator<VarstarFeatureSet>) testComp).getName()+" with weight "+Integer.toString(weight));
+                //System.out.println("Added comparator "+((AbstractMonolithicCOComparator<VarstarFeatureSet>) testComp).getName()+" with weight "+Integer.toString(weight));
             }
         }
         VarstarsOutputLayer firstOutputLayer = new VarstarsOutputLayer("firstol");
-        firstNetwork.addLayer(firstInputLayer, FilterTranslationType.TOP_N, new COParameter<IMonolithicCOComparator<VarstarFeatureSet>, IMonolithicInputGranule<VarstarFeatureSet>, IReferenceObject>(new Integer(10)));
+        firstNetwork.addLayer(firstInputLayer, FilterTranslationType.TOP_N, new COParameter<IMonolithicCOComparator<VarstarFeatureSet>, IMonolithicInputGranule<VarstarFeatureSet>, IReferenceObject>(new Integer(5)));
         firstNetwork.addLayer(firstOutputLayer, FilterTranslationType.RESULTS_FROM_PREVIOUS_LAYER, new COParameter<IMonolithicCOComparator<VarstarFeatureSet>, IMonolithicInputGranule<VarstarFeatureSet>, IReferenceObject>(firstInputLayer));
         return firstNetwork;
     }

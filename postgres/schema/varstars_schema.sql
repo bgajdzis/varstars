@@ -439,7 +439,9 @@ CREATE VIEW scores AS
           GROUP BY prediction_check.run_id
         )
  SELECT true_positives.run_id,
-    ((2.0 * (true_positives.count)::numeric) / (((2.0 * (true_positives.count)::numeric) + (false_negatives.count)::numeric) + (false_positives.count)::numeric)) AS f1_score,
+    2.0 * true_positives.count::numeric / (2.0 * true_positives.count::numeric + false_negatives.count::numeric + false_positives.count::numeric) AS f1_score,
+    5.0 * true_positives.count::numeric / (5.0 * true_positives.count::numeric + 4.0 * false_negatives.count::numeric + false_positives.count::numeric) AS f2_score,
+    1.25 * true_positives.count::numeric / (1.25 * true_positives.count::numeric + 0.25 * false_negatives.count::numeric + false_positives.count::numeric) AS f05_score,
     true_positives.count AS tp,
     false_positives.count AS fp,
     false_negatives.count AS fn

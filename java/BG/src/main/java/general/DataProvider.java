@@ -192,7 +192,7 @@ public class DataProvider {
     public Double getF1Score(String runId){
         try {
             Statement requestF1Statement = this.conn.createStatement();
-            ResultSet f1Result = requestF1Statement.executeQuery(Constants.SQLf1Getter + runId);
+            ResultSet f1Result = requestF1Statement.executeQuery(Constants.SQLf1Getter + "'" + runId + "'");
             f1Result.next();
             Double f1 = f1Result.getDouble("f1_score");
             requestF1Statement.close();
