@@ -49,14 +49,13 @@ public class Runner {
                     }
                 }
                 iter.remove();
-                if (i % perc == 0) {
-                    int prog = i / perc;
-                    String progbar = String.join("",Collections.nCopies(prog,"\u25AE")) + String.join("",Collections.nCopies(100 - prog,"\u25AF"));
-                    System.out.print(progbar + '\r');
-                    }
                 if (++i % 1000 == 0) {
                     dp.commitResult();
-                    System.out.print(("Processed " + String.valueOf(i) + " objects in " + String.valueOf((System.currentTimeMillis() - t0) / 60000) + " minutes" + String.join("",Collections.nCopies(70," ")) + '\n'));
+                    System.out.println(("Processed " + String.valueOf(i) + " objects in " + String.valueOf((System.currentTimeMillis() - t0) / 60000) + " minutes"));
+                }
+                if (i % perc == 0) {
+                    int prog = i / perc;
+                    System.out.print("Done " + prog +"%" + "\r");
                 }
             }
         } catch (Exception e) {
