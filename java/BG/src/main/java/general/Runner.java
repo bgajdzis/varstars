@@ -3,6 +3,7 @@ package general;
 import pl.ls.objects.compound.base.IReferenceObject;
 import genetic.*;
 import java.util.*;
+import java.util.Collections.*;
 
 public class Runner {
     public static void main(String[] args) {
@@ -23,9 +24,10 @@ public class Runner {
         NetworkFactory nf = new NetworkFactory();
         System.out.println(inputList.size());
         int i = 0;
+        int perc = inputList.size()/100;
         long t0 = System.currentTimeMillis();
         try {
-            VarstarsNetwork testNetwork = nf.getFirstLayerTestNetwork(refSet,firstLayerComparators);
+            VarstarsNetwork testNetwork = nf.getFirstNetwork(refSet,firstLayerComparators);
             for (Iterator<VarstarsIG> iter = inputList.listIterator(); iter.hasNext(); ) {
                 VarstarsIG vig = iter.next();
                 testNetwork.setInput(vig);
@@ -48,9 +50,14 @@ public class Runner {
                     }
                 }
                 iter.remove();
+                if (++i % perc == 0) {
+                    int prog = i / perc;
+                    progbar = String.join("",Collections.nCopies(prog,Character.toChars(178))+String.join("",Collections.nCopies(100-prog,Character.toChar(176))));
+                    System.out.print((progbar + '\r').getBytes());
+                    }
                 if (++i % 1000 == 0) {
                     dp.commitResult();
-                    System.out.println("Processed " + String.valueOf(i) + " objects in " + String.valueOf((System.currentTimeMillis() - t0) / 60000) + "minutes");
+                    System.out.print(("Processed " + String.valueOf(i) + " objects in " + String.valueOf((System.currentTimeMillis() - t0) / 60000) + " minutes" + String.join("".Collections.nCopies(65," ")) + '\r').getBytes());
                 }
             }
         } catch (Exception e) {
