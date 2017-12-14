@@ -3,7 +3,6 @@ package general;
 import pl.ls.objects.compound.base.IReferenceObject;
 import genetic.*;
 import java.util.*;
-import java.util.Collections.*;
 
 public class Runner {
     public static void main(String[] args) {
@@ -52,12 +51,12 @@ public class Runner {
                 iter.remove();
                 if (++i % perc == 0) {
                     int prog = i / perc;
-                    progbar = String.join("",Collections.nCopies(prog,Character.toChars(178))+String.join("",Collections.nCopies(100-prog,Character.toChar(176))));
+                    String progbar = String.join("",Collections.nCopies(prog,Character.toChars(178).toString())) + String.join("",Collections.nCopies(100 - prog,Character.toChars(176).toString()));
                     System.out.print((progbar + '\r').getBytes());
                     }
                 if (++i % 1000 == 0) {
                     dp.commitResult();
-                    System.out.print(("Processed " + String.valueOf(i) + " objects in " + String.valueOf((System.currentTimeMillis() - t0) / 60000) + " minutes" + String.join("".Collections.nCopies(65," ")) + '\r').getBytes());
+                    System.out.print(("Processed " + String.valueOf(i) + " objects in " + String.valueOf((System.currentTimeMillis() - t0) / 60000) + " minutes" + String.join("",Collections.nCopies(65," ")) + '\r').getBytes());
                 }
             }
         } catch (Exception e) {
