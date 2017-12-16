@@ -58,7 +58,7 @@ public class NetworkFactory {
         Map<IReferenceObject, Set<AbstractExceptionRule>> mapFamilyExceptions = new HashMap<IReferenceObject, Set<AbstractExceptionRule>>();
         Cloner cloner = new Cloner();
         Set<IReferenceObject> refSetClone = cloner.deepClone(refSet);
-        VarstarsNetwork firstNetwork = new VarstarsNetwork("Siec Testowa");
+        VarstarsNetwork firstNetwork = new VarstarsNetwork("Test Network Both Layers");
         firstNetwork.setNormalization4Comparators(new Pair<SharpenType, COParameter<IMonolithicCOComparator<VarstarFeatureSet>, IMonolithicInputGranule<VarstarFeatureSet>, IReferenceObject>>(SharpenType.SHARPEN_E_X, new COParameter<IMonolithicCOComparator<VarstarFeatureSet>, IMonolithicInputGranule<VarstarFeatureSet>, IReferenceObject>(2.0)));
         VarstarsInputLayer firstInputLayer = new VarstarsInputLayer("firstil", refSetClone, new HashMap<IReferenceObject, Set<AbstractExceptionRule>>());
         Integer weight = null;
@@ -94,7 +94,7 @@ public class NetworkFactory {
         Map<IReferenceObject, Set<AbstractExceptionRule>> mapFamilyExceptions = new HashMap<IReferenceObject, Set<AbstractExceptionRule>>();
         Cloner cloner = new Cloner();
         Set<IReferenceObject> refSetClone = cloner.deepClone(refSet);
-        VarstarsNetwork firstNetwork = new VarstarsNetwork("Siec Testowa");
+        VarstarsNetwork firstNetwork = new VarstarsNetwork("Test Network First Layer Only");
         firstNetwork.setNormalization4Comparators(new Pair<SharpenType, COParameter<IMonolithicCOComparator<VarstarFeatureSet>, IMonolithicInputGranule<VarstarFeatureSet>, IReferenceObject>>(SharpenType.SHARPEN_E_X, new COParameter<IMonolithicCOComparator<VarstarFeatureSet>, IMonolithicInputGranule<VarstarFeatureSet>, IReferenceObject>(2.0)));
         VarstarsInputLayer firstInputLayer = new VarstarsInputLayer("firstil", refSetClone, new HashMap<IReferenceObject, Set<AbstractExceptionRule>>());
         Integer weight = null;
