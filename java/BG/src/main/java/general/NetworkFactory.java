@@ -52,7 +52,7 @@ public class NetworkFactory {
         return testNetwork;
     }
 
-    public VarstarsNetwork getFirstNetwork(Set<IReferenceObject> refSet, Map<Class,Integer> firstLayerComparators) throws ComparatorException, NetworkException {
+    public VarstarsNetwork getFirstNetwork(Set<IReferenceObject> refSet, Map<Class, Integer> firstLayerComparators) throws ComparatorException, NetworkException {
 
         @SuppressWarnings("unused")
         Map<IReferenceObject, Set<AbstractExceptionRule>> mapFamilyExceptions = new HashMap<IReferenceObject, Set<AbstractExceptionRule>>();
@@ -62,8 +62,8 @@ public class NetworkFactory {
         firstNetwork.setNormalization4Comparators(new Pair<SharpenType, COParameter<IMonolithicCOComparator<VarstarFeatureSet>, IMonolithicInputGranule<VarstarFeatureSet>, IReferenceObject>>(SharpenType.SHARPEN_E_X, new COParameter<IMonolithicCOComparator<VarstarFeatureSet>, IMonolithicInputGranule<VarstarFeatureSet>, IReferenceObject>(2.0)));
         VarstarsInputLayer firstInputLayer = new VarstarsInputLayer("firstil", refSetClone, new HashMap<IReferenceObject, Set<AbstractExceptionRule>>());
         Integer weight = null;
-        Map<Class,Integer> comparators = firstLayerComparators;
-        for (Map.Entry<Class,Integer> compToLayer : comparators.entrySet()) {
+        Map<Class, Integer> comparators = firstLayerComparators;
+        for (Map.Entry<Class, Integer> compToLayer : comparators.entrySet()) {
             Object testComp = null;
             try {
                 Constructor<?> cons = compToLayer.getKey().getConstructor(String.class);
@@ -73,7 +73,7 @@ public class NetworkFactory {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            if(weight != null && weight>0){
+            if (weight != null && weight > 0) {
                 firstInputLayer.addComparator((AbstractMonolithicCOComparator<VarstarFeatureSet>) testComp, weight);
                 //System.out.println("Added comparator "+((AbstractMonolithicCOComparator<VarstarFeatureSet>) testComp).getName()+" with weight "+Integer.toString(weight));
             }
@@ -88,7 +88,7 @@ public class NetworkFactory {
         return firstNetwork;
     }
 
-    public VarstarsNetwork getFirstLayerTestNetwork(Set<IReferenceObject> refSet, Map<Class,Integer> firstLayerComparators) throws ComparatorException, NetworkException {
+    public VarstarsNetwork getFirstLayerTestNetwork(Set<IReferenceObject> refSet, Map<Class, Integer> firstLayerComparators) throws ComparatorException, NetworkException {
 
         @SuppressWarnings("unused")
         Map<IReferenceObject, Set<AbstractExceptionRule>> mapFamilyExceptions = new HashMap<IReferenceObject, Set<AbstractExceptionRule>>();
@@ -98,8 +98,8 @@ public class NetworkFactory {
         firstNetwork.setNormalization4Comparators(new Pair<SharpenType, COParameter<IMonolithicCOComparator<VarstarFeatureSet>, IMonolithicInputGranule<VarstarFeatureSet>, IReferenceObject>>(SharpenType.SHARPEN_E_X, new COParameter<IMonolithicCOComparator<VarstarFeatureSet>, IMonolithicInputGranule<VarstarFeatureSet>, IReferenceObject>(2.0)));
         VarstarsInputLayer firstInputLayer = new VarstarsInputLayer("firstil", refSetClone, new HashMap<IReferenceObject, Set<AbstractExceptionRule>>());
         Integer weight = null;
-        Map<Class,Integer> comparators = firstLayerComparators;
-        for (Map.Entry<Class,Integer> compToLayer : comparators.entrySet()) {
+        Map<Class, Integer> comparators = firstLayerComparators;
+        for (Map.Entry<Class, Integer> compToLayer : comparators.entrySet()) {
             Object testComp = null;
             try {
                 Constructor<?> cons = compToLayer.getKey().getConstructor(String.class);
@@ -109,7 +109,7 @@ public class NetworkFactory {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            if(weight != null && weight>0){
+            if (weight != null && weight > 0) {
                 firstInputLayer.addComparator((AbstractMonolithicCOComparator<VarstarFeatureSet>) testComp, weight);
                 //System.out.println("Added comparator "+((AbstractMonolithicCOComparator<VarstarFeatureSet>) testComp).getName()+" with weight "+Integer.toString(weight));
             }

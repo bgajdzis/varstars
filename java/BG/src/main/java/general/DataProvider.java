@@ -18,9 +18,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.Map.Entry;
-import java.util.AbstractMap;
 
 public class DataProvider {
 
@@ -189,7 +186,7 @@ public class DataProvider {
         }
     }
 
-    public Double getF1Score(String runId){
+    public Double getF1Score(String runId) {
         try {
             Statement requestF1Statement = this.conn.createStatement();
             ResultSet f1Result = requestF1Statement.executeQuery(Constants.SQLf1Getter + "'" + runId + "'");

@@ -36,7 +36,7 @@ public class FluxPercentileRatio80MCOC extends AbstractMonolithicCOComparator<Va
         Double inputValue;
         Double referenceValue;
         try {
-            if (((VarstarsRef) ref).getReferenceName() != "NPer") {
+            if (!(((VarstarsRef) ref).getReferenceName().equals("NPer"))) {
                 this.p = Constants.perP;
             }
         } catch (Exception e) {

@@ -36,7 +36,7 @@ public class BlsPeriod1MCOC extends AbstractMonolithicCOComparator<VarstarFeatur
     protected double getMembershipValue(IMonolithicReferenceObject ref) throws
             ComparatorException {
         try {
-            if (((VarstarsRef) ref).getReferenceName() != "NPer") {
+            if (!(((VarstarsRef) ref).getReferenceName().equals("NPer"))) {
                 this.p = Constants.perP;
             }
         } catch (Exception e) {

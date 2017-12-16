@@ -1,7 +1,7 @@
 package general;
 
 import pl.ls.objects.compound.base.IReferenceObject;
-import genetic.*;
+
 import java.util.*;
 
 public class Runner {
@@ -9,11 +9,11 @@ public class Runner {
         singleRun();
     }
 
-    private static void singleRun(){
+    private static void singleRun() {
         System.out.println(singleRun(Constants.allDblComparators));
     }
 
-    private static Double singleRun(Map<Class,Integer> firstLayerComparators){
+    private static Double singleRun(Map<Class, Integer> firstLayerComparators) {
         String runId = UUID.randomUUID().toString();
         Set<IReferenceObject> refSet;
         List<VarstarsIG> inputList = null;
@@ -23,10 +23,10 @@ public class Runner {
         NetworkFactory nf = new NetworkFactory();
         System.out.println(inputList.size());
         int i = 0;
-        int perc = inputList.size()/100;
+        int perc = inputList.size() / 100;
         long t0 = System.currentTimeMillis();
         try {
-            VarstarsNetwork testNetwork = nf.getFirstLayerTestNetwork(refSet,firstLayerComparators);
+            VarstarsNetwork testNetwork = nf.getFirstLayerTestNetwork(refSet, firstLayerComparators);
             for (Iterator<VarstarsIG> iter = inputList.listIterator(); iter.hasNext(); ) {
                 VarstarsIG vig = iter.next();
                 testNetwork.setInput(vig);
@@ -40,14 +40,14 @@ public class Runner {
                             String value = entry.getValue().toString();
                             String periodConf = vig.getFreq1Signif().toString();
                             System.out.println(name + ": " + key + " " + value + " " + periodConf);
-                            dp.saveResult(String.format("'%s','%s','%s','%s'",name, key, value, runId));
+                            dp.saveResult(String.format("'%s','%s','%s','%s'", name, key, value, runId));
                         }
                     } else {
                         String key = "NPer";
                         String value = "0.0";
                         String periodConf = vig.getFreq1Signif().toString();
                         System.out.println(name + ": " + key + " " + value + " " + periodConf);
-                        dp.saveResult(String.format("'%s','%s','%s','%s'",name, key, value, runId));
+                        dp.saveResult(String.format("'%s','%s','%s','%s'", name, key, value, runId));
                     }
                 }
                 iter.remove();
@@ -71,7 +71,7 @@ public class Runner {
         return f1Score;
     }
 
-    private static void multipleRuns(){
+    private static void multipleRuns() {
 
     }
 }

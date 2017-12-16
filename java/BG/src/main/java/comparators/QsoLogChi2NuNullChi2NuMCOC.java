@@ -36,7 +36,7 @@ public class QsoLogChi2NuNullChi2NuMCOC extends AbstractMonolithicCOComparator<V
     protected double getMembershipValue(IMonolithicReferenceObject ref) throws
             ComparatorException {
         try {
-            if (((VarstarsRef) ref).getReferenceName() != "NPer") {
+            if (!(((VarstarsRef) ref).getReferenceName().equals("NPer"))) {
                 this.p = Constants.perP;
             }
         } catch (Exception e) {

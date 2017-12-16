@@ -28,11 +28,11 @@ public class Population {
         return null;
     }
 
-    private static class PopulationHolder {
-        private static final Population INSTANCE = new Population();
+    public Integer size() {
+        return this.population.size();
     }
 
-    public Integer size(){
-        return this.population.size();
+    private static class PopulationHolder {
+        private static final Population INSTANCE = new Population();
     }
 }
