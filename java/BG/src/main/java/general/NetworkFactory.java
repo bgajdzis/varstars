@@ -113,7 +113,7 @@ public class NetworkFactory {
             }
         }
         VarstarsOutputLayer firstOutputLayer = new VarstarsOutputLayer("firstol");
-        firstNetwork.addLayer(firstInputLayer, FilterTranslationType.TOP_N, new COParameter<IMonolithicCOComparator<VarstarFeatureSet>, IMonolithicInputGranule<VarstarFeatureSet>, IReferenceObject>(new Integer(5)));
+        firstNetwork.addLayer(firstInputLayer, FilterTranslationType.TOP_N, new COParameter<IMonolithicCOComparator<VarstarFeatureSet>, IMonolithicInputGranule<VarstarFeatureSet>, IReferenceObject>(new Integer(10)));
         firstNetwork.addLayer(firstOutputLayer, FilterTranslationType.RESULTS_FROM_PREVIOUS_LAYER, new COParameter<IMonolithicCOComparator<VarstarFeatureSet>, IMonolithicInputGranule<VarstarFeatureSet>, IReferenceObject>(firstInputLayer));
         return firstNetwork;
     }

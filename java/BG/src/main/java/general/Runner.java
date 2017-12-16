@@ -26,7 +26,7 @@ public class Runner {
         int perc = inputList.size()/100;
         long t0 = System.currentTimeMillis();
         try {
-            VarstarsNetwork testNetwork = nf.getFirstNetwork(refSet,firstLayerComparators);
+            VarstarsNetwork testNetwork = nf.getFirstLayerTestNetwork(refSet,firstLayerComparators);
             for (Iterator<VarstarsIG> iter = inputList.listIterator(); iter.hasNext(); ) {
                 VarstarsIG vig = iter.next();
                 testNetwork.setInput(vig);
@@ -38,25 +38,27 @@ public class Runner {
                         for (Map.Entry<IReferenceObject, Double> entry : resultMap.entrySet()) {
                             String key = entry.getKey().getReferenceName();
                             String value = entry.getValue().toString();
-                            //System.out.println(name + ": " + key + " " + value);
+                            String periodConf = vig.getFreq1Signif().toString();
+                            System.out.println(name + ": " + key + " " + value + " " + periodConf);
                             dp.saveResult(String.format("'%s','%s','%s','%s'",name, key, value, runId));
                         }
                     } else {
                         String key = "NPer";
                         String value = "0.0";
-                        //System.out.println(name + ": " + key + " " + value);
+                        String periodConf = vig.getFreq1Signif().toString();
+                        System.out.println(name + ": " + key + " " + value + " " + periodConf);
                         dp.saveResult(String.format("'%s','%s','%s','%s'",name, key, value, runId));
                     }
                 }
                 iter.remove();
                 if (++i % 1000 == 0) {
                     dp.commitResult();
-                    System.out.println(("Processed " + String.valueOf(i) + " objects in " + String.valueOf((System.currentTimeMillis() - t0) / 60000) + " minutes"));
+                    //System.out.println(("Processed " + String.valueOf(i) + " objects in " + String.valueOf((System.currentTimeMillis() - t0) / 60000) + " minutes"));
                 }
-                if (i % perc == 0) {
-                    int prog = i / perc;
-                    System.out.print("Done " + prog +"%" + "\r");
-                }
+                //if (i % perc == 0) {
+                //    int prog = i / perc;
+                //    System.out.print("Done " + prog +"%" + "\r");
+                //}
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -65,7 +67,7 @@ public class Runner {
             System.out.println("Done");
         }
         Double f1Score = dp.getF1Score(runId);
-        System.out.println("F1 Score = " + Double.toString(f1Score));
+        System.out.println("F1 Score = " + Double.toString(f1Score) + "\nRun UUID = " + runId);
         return f1Score;
     }
 
