@@ -3,6 +3,7 @@ package general;
 import com.rits.cloning.Cloner;
 import comparators.AmplitudeMCOC;
 import comparators.TimeseriesDTWMCOC;
+import comparators.TimeseriesTWEDMCOC;
 import layers.VarstarsInputLayer;
 import layers.VarstarsMidLayer;
 import layers.VarstarsOutputLayer;
@@ -79,6 +80,7 @@ public class NetworkFactory {
         }
         VarstarsMidLayer firstMidLayer = new VarstarsMidLayer("firstml", refSetClone, new HashMap<IReferenceObject, Set<AbstractExceptionRule>>());
         firstMidLayer.addComparator(new TimeseriesDTWMCOC("DTWCOmp"), 1);
+        firstMidLayer.addComparator(new TimeseriesTWEDMCOC("TWEDCOmp"), 1);
         VarstarsOutputLayer firstOutputLayer = new VarstarsOutputLayer("firstol");
         firstNetwork.addLayer(firstInputLayer, FilterTranslationType.TOP_N, new COParameter<IMonolithicCOComparator<VarstarFeatureSet>, IMonolithicInputGranule<VarstarFeatureSet>, IReferenceObject>(new Integer(10)));
         firstNetwork.addLayer(firstMidLayer, FilterTranslationType.TOP_N, new COParameter<IMonolithicCOComparator<VarstarFeatureSet>, IMonolithicInputGranule<VarstarFeatureSet>, IReferenceObject>(new Integer(1)));

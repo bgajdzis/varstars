@@ -124,6 +124,7 @@ public final class Constants {
     public static final Integer P2pSsqrDiffOverVar = 122;
     public static final Integer ScatterResRaw = 123;
     public static final Integer TimeseriesDTW = 124;
+    public static final Integer TimeseriesTWED = 168;
     public static final Integer BlsPeriod1 = 125;
     public static final Integer BlsTc1 = 126;
     public static final Integer BlsSignalToNoise1 = 127;
