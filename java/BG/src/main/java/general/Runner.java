@@ -38,22 +38,22 @@ public class Runner {
                         for (Map.Entry<IReferenceObject, Double> entry : resultMap.entrySet()) {
                             String key = entry.getKey().getReferenceName();
                             String value = entry.getValue().toString();
-                            String periodConf = vig.getFreq1Signif().toString();
-                            System.out.println(name + ": " + key + " " + value + " " + periodConf);
+                            //String periodConf = vig.getFreq1Signif().toString();
+                            System.out.println(name + ": " + key + " " + value);
                             dp.saveResult(String.format("'%s','%s','%s','%s'", name, key, value, runId));
                         }
                     } else {
                         String key = "NPer";
                         String value = "0.0";
-                        String periodConf = vig.getFreq1Signif().toString();
-                        System.out.println(name + ": " + key + " " + value + " " + periodConf);
+                        //String periodConf = vig.getFreq1Signif().toString();
+                        System.out.println(name + ": " + key + " " + value);
                         dp.saveResult(String.format("'%s','%s','%s','%s'", name, key, value, runId));
                     }
                 }
                 iter.remove();
                 if (++i % 1000 == 0) {
                     dp.commitResult();
-                    //System.out.println(("Processed " + String.valueOf(i) + " objects in " + String.valueOf((System.currentTimeMillis() - t0) / 60000) + " minutes"));
+                    System.out.println(("Processed " + String.valueOf(i) + " objects in " + String.valueOf((System.currentTimeMillis() - t0) / 60000) + " minutes"));
                 }
                 //if (i % perc == 0) {
                 //    int prog = i / perc;
