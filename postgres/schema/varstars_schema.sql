@@ -437,17 +437,24 @@ CREATE VIEW scores AS
            FROM prediction_check
           WHERE (((prediction_check.actual)::text !~~* prediction_check.predicted) AND (prediction_check.predicted = 'NPer'::text))
           GROUP BY prediction_check.run_id
-        )
+        ), total AS (
+         SELECT  prediction_check.run_id,
+            count(*) AS count
+           FROM prediction_check
+          GROUP BY prediction_check.run_id
+        ) 
  SELECT true_positives.run_id,
     2.0 * true_positives.count::numeric / (2.0 * true_positives.count::numeric + false_negatives.count::numeric + false_positives.count::numeric) AS f1_score,
     5.0 * true_positives.count::numeric / (5.0 * true_positives.count::numeric + 4.0 * false_negatives.count::numeric + false_positives.count::numeric) AS f2_score,
     1.25 * true_positives.count::numeric / (1.25 * true_positives.count::numeric + 0.25 * false_negatives.count::numeric + false_positives.count::numeric) AS f05_score,
     true_positives.count AS tp,
     false_positives.count AS fp,
-    false_negatives.count AS fn
-   FROM ((true_positives
-     JOIN false_negatives USING (run_id))
-     JOIN false_positives USING (run_id));
+    false_negatives.count AS fn,
+    total.count as total
+   FROM true_positives
+     JOIN false_negatives USING (run_id)
+     JOIN false_positives USING (run_id)
+     JOIN total USING (run_id);
 
 --
 -- Name: reference_timeseries_periodic_catalog_id_idx; Type: INDEX; Schema: public; Owner: -
@@ -478,6 +485,12 @@ CREATE INDEX typeindex_subtype_idx ON typeindex USING btree (subtype);
 --
 
 CREATE INDEX typeindex_type_idx ON typeindex USING btree (type);
+
+--
+-- Name: predicted_types_runid_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX predicted_types_runid_idx ON predicted_types USING hash (run_id);
 
 --
 -- PostgreSQL database dump complete
