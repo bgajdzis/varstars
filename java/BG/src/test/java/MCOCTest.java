@@ -47,6 +47,7 @@ public class MCOCTest {
         //Class[] classes = Constants.allDblComparators ;
         Class[] classes = {
                 TimeseriesDTWMCOC.class
+                TimeseriesTWEDMCOC.class
         };
         for (Class cls:classes) {
             try {
