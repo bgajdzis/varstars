@@ -78,7 +78,7 @@ public class TimeseriesDTWMCOC extends AbstractMonolithicCOComparator<VarstarFea
             Double sim = 1 - dist / len;
             System.out.println("DTW: dist-"+dist+" sim-"+sim);
             if (sim < 0){
-                sim = 0;
+                sim = 0.0;
             }   
             return sim;
         } catch (Exception e) {
