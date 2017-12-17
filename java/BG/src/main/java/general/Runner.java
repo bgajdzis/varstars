@@ -26,7 +26,7 @@ public class Runner {
         int perc = inputList.size() / 100;
         long t0 = System.currentTimeMillis();
         try {
-            VarstarsNetwork testNetwork = nf.getFirstLayerTestNetwork(refSet, firstLayerComparators);
+            VarstarsNetwork testNetwork = nf.getFirstNetwork(refSet, firstLayerComparators);
             for (Iterator<VarstarsIG> iter = inputList.listIterator(); iter.hasNext(); ) {
                 VarstarsIG vig = iter.next();
                 testNetwork.setInput(vig);
@@ -53,7 +53,7 @@ public class Runner {
                 iter.remove();
                 if (++i % 1000 == 0) {
                     dp.commitResult();
-                    //System.out.println(("Processed " + String.valueOf(i) + " objects in " + String.valueOf((System.currentTimeMillis() - t0) / 60000) + " minutes"));
+                    System.out.println(("Processed " + String.valueOf(i) + " objects in " + String.valueOf((System.currentTimeMillis() - t0) / 60000) + " minutes"));
                 }
                 //if (i % perc == 0) {
                 //    int prog = i / perc;
