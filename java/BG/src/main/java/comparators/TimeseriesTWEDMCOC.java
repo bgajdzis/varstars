@@ -53,10 +53,10 @@ public class TimeseriesTWEDMCOC extends AbstractMonolithicCOComparator<VarstarFe
             List<Map.Entry<Double, Double>> pointsr = new ArrayList<Map.Entry<Double, Double>>(referenceValue.entrySet());
             pointsi = Utils.listNormalize(pointsi);
             pointsr = Utils.listNormalize(pointsr);
-            Twed twed = new Twed(1, pointsi, pointsr, 0.2, 0.05, 2, 10.0);
+            Twed twed = new Twed(1, pointsi, pointsr, 0.2, 0.05, 2, 10.0*(pointsi.size()+pointsr.size()));
             Double dist = twed.getDistance();
-            Double sim = Math.exp(-1*(dist/twed.getSigma()));
-            System.out.println("TWED: dist-"+"dist"+" sim-"+sim);
+            Double sim = Math.exp(dist/twed.getSigma());
+            System.out.println("TWED: dist-"+dist+" sim-"+sim);
             return sim;
         } catch (Exception e) {
             //log.error(e,e);

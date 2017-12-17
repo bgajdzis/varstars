@@ -76,10 +76,10 @@ public class TimeseriesDTWMCOC extends AbstractMonolithicCOComparator<VarstarFea
             TimeWarpInfo tw = FastDTW.compare(ts1, ts2, 10, Distances.EUCLIDEAN_DISTANCE);
             Double dist = tw.getDistance();
             Double sim = 1 - dist / len;
-            System.out.println("DTW: dist-"+"dist"+" sim-"+sim);
-            if (sim > 1 || sim < 0) {
-                System.out.println("źle");
-            }
+            System.out.println("DTW: dist-"+dist+" sim-"+sim);
+            if (sim < 0){
+                sim = 0;
+            }   
             return sim;
         } catch (Exception e) {
             //log.error(e,e);
