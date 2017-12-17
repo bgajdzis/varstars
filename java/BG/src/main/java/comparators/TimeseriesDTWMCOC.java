@@ -36,7 +36,7 @@ public class TimeseriesDTWMCOC extends AbstractMonolithicCOComparator<VarstarFea
 
     @Override
     protected void setP() {
-        this.p = 0.8;
+        this.p = Constants.nonPerP;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class TimeseriesDTWMCOC extends AbstractMonolithicCOComparator<VarstarFea
         Map<Double, Double> referenceValue;
         try {
             if (!(((VarstarsRef) ref).getReferenceName().equals("NPer"))) {
-                this.p = Constants.perP;
+                this.p = 0.8;
             }
         } catch (Exception e) {
             //log.error(e, e);
@@ -76,8 +76,7 @@ public class TimeseriesDTWMCOC extends AbstractMonolithicCOComparator<VarstarFea
             TimeWarpInfo tw = FastDTW.compare(ts1, ts2, 10, Distances.EUCLIDEAN_DISTANCE);
             Double dist = tw.getDistance();
             Double sim = 1 - dist / len;
-            //System.out.println(len);
-            //System.out.println(tw.toString());
+            System.out.println("DTW: dist-"+"dist"+" sim-"+sim);
             if (sim > 1 || sim < 0) {
                 System.out.println("źle");
             }

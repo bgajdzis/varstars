@@ -53,11 +53,10 @@ public class TimeseriesTWEDMCOC extends AbstractMonolithicCOComparator<VarstarFe
             List<Map.Entry<Double, Double>> pointsr = new ArrayList<Map.Entry<Double, Double>>(referenceValue.entrySet());
             pointsi = Utils.listNormalize(pointsi);
             pointsr = Utils.listNormalize(pointsr);
-            Twed twed = new Twed(1, pointsi, pointsr, 0.02, 0.5, 2);
+            Twed twed = new Twed(1, pointsi, pointsr, 0.2, 0.05, 2, 10.0);
             Double dist = twed.getDistance();
-            Double sim = 1 - dist;
-            //System.out.println(len);
-            //System.out.println(tw.toString());
+            Double sim = Math.exp(-1*(dist/twed.getSigma()));
+            System.out.println("TWED: dist-"+"dist"+" sim-"+sim);
             return sim;
         } catch (Exception e) {
             //log.error(e,e);
@@ -81,8 +80,9 @@ public class TimeseriesTWEDMCOC extends AbstractMonolithicCOComparator<VarstarFe
         private Double lambda;
         private Integer degree;
         private Double[][] D;
+        private Double sigma;
 
-        public Twed(Integer dim, List<Map.Entry<Double, Double>> pointsA, List<Map.Entry<Double, Double>> pointsB, Double nu, Double lambda, Integer degree) {
+        public Twed(Integer dim, List<Map.Entry<Double, Double>> pointsA, List<Map.Entry<Double, Double>> pointsB, Double nu, Double lambda, Integer degree, Double sigma) {
             this.dim = dim;
             this.nu = nu;
             this.lambda = lambda;
@@ -92,6 +92,7 @@ public class TimeseriesTWEDMCOC extends AbstractMonolithicCOComparator<VarstarFe
             this.tsa = new Double[pointsA.size()];
             this.tb = new Double[pointsB.size()];
             this.tsb = new Double[pointsB.size()];
+            this.sigma = sigma;
             for (int i = 0; i < pointsA.size(); i++) {
                 ta[i] = pointsA.get(i).getValue();
                 tsa[i] = pointsA.get(i).getKey();
@@ -171,6 +172,10 @@ public class TimeseriesTWEDMCOC extends AbstractMonolithicCOComparator<VarstarFe
                 calculateDistance();
             }
             return D[this.ta.length][this.tb.length];
+        }
+
+        public Double getSigma() {
+            return this.sigma;
         }
     }
 }
