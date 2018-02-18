@@ -321,8 +321,109 @@ public class VarstarFeatureSet {
     private Double chi22Dof;
     @Column(name = "weighted_mean_mag")
     private Double weightedMeanMag;
+    @Column(name = "fastchi_period")
+    private Double fc2Freq;
+    @Column(name = "fastchi_chimin")
+    private Double fc2Min;
+    @Column(name = "fastchi_chidetrend")
+    private Double fc2Detrend;
+    @Column(name = "fastchi_sin1")
+    private Double fc2Sin1;
+    @Column(name = "fastchi_sin2")
+    private Double fc2Sin2;
+    @Column(name = "ckp_ip")
+    private Double ckpIp;
+    @Column(name = "ckp_period_1")
+    private Double ckpPeriod1;
+    @Column(name = "ckp_ckp1")
+    private Double ckpCkp1;
+    @Column(name = "ckp_period_2")
+    private Double ckpPeriod2;
+    @Column(name = "ckp_ckp2")
+    private Double ckpCkp2;
 
     public VarstarFeatureSet() {
+    }
+
+
+    public Double getFc2Freq() {
+        return fc2Freq;
+    }
+
+    public void setFc2Freq(Double fc2Freq) {
+        this.fc2Freq = fc2Freq;
+    }
+
+    public Double getFc2Min() {
+        return fc2Min;
+    }
+
+    public void setFc2Min(Double fc2Min) {
+        this.fc2Min = fc2Min;
+    }
+
+    public Double getFc2Detrend() {
+        return fc2Detrend;
+    }
+
+    public void setFc2Detrend(Double fc2Detrend) {
+        this.fc2Detrend = fc2Detrend;
+    }
+
+    public Double getFc2Sin1() {
+        return fc2Sin1;
+    }
+
+    public void setFc2Sin1(Double fc2Sin1) {
+        this.fc2Sin1 = fc2Sin1;
+    }
+
+    public Double getFc2Sin2() {
+        return fc2Sin2;
+    }
+
+    public void setFc2Sin2(Double fc2Sin2) {
+        this.fc2Sin2 = fc2Sin2;
+    }
+
+    public Double getCkpIp() {
+        return ckpIp;
+    }
+
+    public void setCkpIp(Double ckpIp) {
+        this.ckpIp = ckpIp;
+    }
+
+    public Double getCkpPeriod1() {
+        return ckpPeriod1;
+    }
+
+    public void setCkpPeriod1(Double ckpPeriod1) {
+        this.ckpPeriod1 = ckpPeriod1;
+    }
+
+    public Double getCkpCkp1() {
+        return ckpCkp1;
+    }
+
+    public void setCkpCkp1(Double ckpCkp1) {
+        this.ckpCkp1 = ckpCkp1;
+    }
+
+    public Double getCkpPeriod2() {
+        return ckpPeriod2;
+    }
+
+    public void setCkpPeriod2(Double ckpPeriod2) {
+        this.ckpPeriod2 = ckpPeriod2;
+    }
+
+    public Double getCkpCkp2() {
+        return ckpCkp2;
+    }
+
+    public void setCkpCkp2(Double ckpCkp2) {
+        this.ckpCkp2 = ckpCkp2;
     }
 
     public Double getBlsPeriod1() {

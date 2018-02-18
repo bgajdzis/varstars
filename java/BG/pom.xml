@@ -204,7 +204,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.20</version>
                 <configuration>
-                    <argLine>-Xmx28g -Xms16g -XX:+UseG1GC</argLine>
+                    <argLine>-Xmx2g -Xms1g -XX:+UseG1GC</argLine>
                 </configuration>
             </plugin>
             <plugin>

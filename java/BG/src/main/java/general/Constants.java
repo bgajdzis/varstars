@@ -168,6 +168,16 @@ public final class Constants {
     public static final Integer Chi22Dof = 165;
     public static final Integer WeightedMeanMag = 166;
     public static final Integer NEpochs = 167;
+    public static final Integer Fc2Freq = 168;
+    public static final Integer Fc2Min = 169;
+    public static final Integer Fc2Detrend = 170;
+    public static final Integer Fc2Sin1 = 171;
+    public static final Integer Fc2Sin2 = 172;
+    public static final Integer CkpIp = 173;
+    public static final Integer CkpPeriod1 = 174;
+    public static final Integer CkpCkp1 = 175;
+    public static final Integer CkpPeriod2 = 176;
+    public static final Integer CkpCkp2 = 177;
 
     public static final String SQLresultInsertHeader = "INSERT INTO predicted_types (name,type,confidence,run_id) VALUES";
     public static final String SQLreferenceSelect = "SELECT * FROM reference_timeseries TABLESAMPLE BERNOULLI (20)";
@@ -329,6 +339,16 @@ public final class Constants {
             new SimpleEntry<Class, Integer>(AlarmMCOC.class, 2),
             new SimpleEntry<Class, Integer>(Chi22DofMCOC.class, 2),
             new SimpleEntry<Class, Integer>(WeightedMeanMagMCOC.class, 2),
-            new SimpleEntry<Class, Integer>(NEpochsMCOC.class, 0))
+            new SimpleEntry<Class, Integer>(NEpochsMCOC.class, 0),
+            new SimpleEntry<Class, Integer>(Fc2FreqMCOC.class,  1),
+            new SimpleEntry<Class, Integer>(Fc2MinMCOC.class, 1),
+            new SimpleEntry<Class, Integer>(Fc2DetrendMCOC.class, 1),
+            new SimpleEntry<Class, Integer>(Fc2Sin1MCOC.class, 0),
+            new SimpleEntry<Class, Integer>(Fc2Sin2MCOC.class, 0),
+            new SimpleEntry<Class, Integer>(CkpIpMCOC.class, 1),
+            new SimpleEntry<Class, Integer>(CkpPeriod1MCOC.class, 1),
+            new SimpleEntry<Class, Integer>(CkpCkp1MCOC.class, 1),
+            new SimpleEntry<Class, Integer>(CkpPeriod2MCOC.class, 0),
+            new SimpleEntry<Class, Integer>(CkpCkp2MCOC.class, 0))
             .collect(Collectors.toMap(SimpleEntry::getKey, SimpleEntry::getValue));
 }

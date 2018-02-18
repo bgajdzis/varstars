@@ -639,6 +639,26 @@ public class VarstarsCO extends AbstractMonolithicObject<VarstarFeatureSet> {
         return origObject.getNEpochs();
     }
 
+    public Double getFc2Freq() { return origObject.getFc2Freq();}
+
+    public Double getFc2Detrend() { return origObject.getFc2Detrend();}
+
+    public Double getFc2Min() { return origObject.getFc2Min();}
+
+    public Double getFc2Sin1() { return origObject.getFc2Sin1();}
+
+    public Double getFc2Sin2() { return origObject.getFc2Sin2();}
+
+    public Double getCkpIp() { return origObject.getCkpIp();}
+
+    public Double getCkpCkp1() { return origObject.getCkpCkp1();}
+
+    public Double getCkpCkp2() { return origObject.getCkpCkp2();}
+
+    public Double getCkpPeriod1() { return origObject.getCkpPeriod1();}
+
+    public Double getCkpPeriod2() { return origObject.getCkpPeriod2();}
+
     public Map<Double, Double> getTimeseries() {
         return origObject.getTimeseriesObs();
     }
