@@ -45,7 +45,7 @@ public class MCOCTest {
             dp.commitResult();
         }
     }
-*/
+
     @Test
     public void GenericMCOCTestSuite(){
         Set<IReferenceObject> refSet;
@@ -79,4 +79,5 @@ public class MCOCTest {
             e.printStackTrace();
         }
     }
+*/
 }

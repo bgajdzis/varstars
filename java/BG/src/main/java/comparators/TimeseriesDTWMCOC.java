@@ -45,7 +45,7 @@ public class TimeseriesDTWMCOC extends AbstractMonolithicCOComparator<VarstarFea
         Map<Double, Double> referenceValue;
         try {
             if (!(((VarstarsRef) ref).getReferenceName().equals("NPer"))) {
-                this.p = 0.8;
+                this.p = 0.85;
             }
         } catch (Exception e) {
             //log.error(e, e);
