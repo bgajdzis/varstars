@@ -53,7 +53,7 @@ public class TimeseriesDTWMCOC extends AbstractMonolithicCOComparator<VarstarFea
         }
         try {
             inputValue = ((VarstarsCO) getInputObject()).getTimeseries();
-            Double peri = ((VarstarsCO) getInputObject()).getPeriodFast();
+            Double peri = 1. / (((VarstarsCO) getInputObject()).getFc2Freq());
             referenceValue = ((VarstarsRef) ref).getTimeseries();
             Double perr = ((VarstarsRef) ref).getPeriodFast();
             int len = min(referenceValue.size(), inputValue.size());
