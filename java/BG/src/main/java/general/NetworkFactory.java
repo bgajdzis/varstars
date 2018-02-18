@@ -75,7 +75,7 @@ public class NetworkFactory {
             }
             if (weight != null && weight > 0) {
                 firstInputLayer.addComparator((AbstractMonolithicCOComparator<VarstarFeatureSet>) testComp, weight);
-                //System.out.println("Added comparator "+((AbstractMonolithicCOComparator<VarstarFeatureSet>) testComp).getName()+" with weight "+Integer.toString(weight));
+                System.out.println("Added comparator "+((AbstractMonolithicCOComparator<VarstarFeatureSet>) testComp).getName()+" with weight "+Integer.toString(weight));
             }
         }
         VarstarsMidLayer firstMidLayer = new VarstarsMidLayer("firstml", refSetClone, new HashMap<IReferenceObject, Set<AbstractExceptionRule>>());
