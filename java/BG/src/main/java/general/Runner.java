@@ -10,7 +10,7 @@ public class Runner {
     }
 
     private static void singleRun() {
-        System.out.println(singleRun(Constants.allDblComparators));
+        System.out.println(singleRun(Constants.nonperiodicDblComparators));
     }
 
     private static Double singleRun(Map<Class, Integer> firstLayerComparators) {

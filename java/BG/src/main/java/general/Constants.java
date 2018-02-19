@@ -184,7 +184,7 @@ public final class Constants {
     public static final String SQLinputGranuleSelect = "SELECT * FROM input_timeseries";
     public static final String SQLf1Getter = "SELECT * FROM scores WHERE run_id = ";
 
-    public static final Map<Class, Integer> allDblComparators = Stream.of(
+    public static final Map<Class, Integer> nonperiodicDblComparators = Stream.of(
             new SimpleEntry<Class, Integer>(AmplitudeMCOC.class, 1),
             new SimpleEntry<Class, Integer>(PercentageAmplitudeMCOC.class, 2),
             new SimpleEntry<Class, Integer>(FluxPercentilePercentDifferenceMCOC.class, 2),
@@ -246,7 +246,10 @@ public final class Constants {
             new SimpleEntry<Class, Integer>(AllTimesNHistPeak1BinMCOC.class, 0),
             new SimpleEntry<Class, Integer>(AllTimesNHistPeak2BinMCOC.class, 0),
             new SimpleEntry<Class, Integer>(AllTimesNHistPeak3BinMCOC.class, 0),
-            new SimpleEntry<Class, Integer>(AllTimesNHistPeak4BinMCOC.class, 0),
+            new SimpleEntry<Class, Integer>(AllTimesNHistPeak4BinMCOC.class, 0))
+            .collect(Collectors.toMap(SimpleEntry::getKey, SimpleEntry::getValue));
+
+    public static final Map<Class, Integer> periodicDblComparators = Stream.of(
             new SimpleEntry<Class, Integer>(PeriodFastMCOC.class, 0),
             new SimpleEntry<Class, Integer>(QsoLogChi2QsoNuMCOC.class, 2),
             new SimpleEntry<Class, Integer>(QsoLogChi2NuNullChi2NuMCOC.class, 1),
