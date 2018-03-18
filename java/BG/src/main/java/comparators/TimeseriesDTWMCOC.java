@@ -36,7 +36,7 @@ public class TimeseriesDTWMCOC extends AbstractMonolithicCOComparator<VarstarFea
 
     @Override
     protected void setP() {
-        this.p = Constants.nonPerP;
+        this.p = 0.2;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class TimeseriesDTWMCOC extends AbstractMonolithicCOComparator<VarstarFea
         Map<Double, Double> referenceValue;
         try {
             if (!(((VarstarsRef) ref).getReferenceName().equals("NPer"))) {
-                this.p = 0.85;
+                this.p = 0.4;
             }
         } catch (Exception e) {
             //log.error(e, e);

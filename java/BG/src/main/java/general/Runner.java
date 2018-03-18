@@ -36,8 +36,13 @@ public class Runner {
                     if (resultMap.size() > 0) {
                         for (Map.Entry<IReferenceObject, Double> entry : resultMap.entrySet()) {
                             String key = entry.getKey().getReferenceName();
+                            Double dvalue = entry.getValue();
                             String value = entry.getValue().toString();
                             //String periodConf = vig.getFreq1Signif().toString();
+                            if (dvalue < 0.0) {
+				value = "0.0";
+				key = "NPer";
+			    }
                             System.out.println(name + ": " + key + " " + value);
                             dp.saveResult(String.format("'%s','%s','%s','%s'", name, key, value, runId));
                         }
