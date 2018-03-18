@@ -25,7 +25,7 @@ public class Runner {
         int i = 0;
         long t0 = System.currentTimeMillis();
         try {
-            VarstarsNetwork testNetwork = nf.getFirstLayerTestNetwork(refSet, firstLayerComparators);
+            VarstarsNetwork testNetwork = nf.getFirstNetwork(refSet, firstLayerComparators);
             for (Iterator<VarstarsIG> iter = inputList.listIterator(); iter.hasNext(); ) {
                 VarstarsIG vig = iter.next();
                 testNetwork.setInput(vig);

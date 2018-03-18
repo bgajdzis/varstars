@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 public final class Constants {
 
     public static final Double nonPerP = 0.2;
-    public static final Double perP = 0.95;
+    public static final Double perP = 0.8;
     public static final Integer Amplitude = 1;
     public static final Integer PercentageAmplitude = 2;
     public static final Integer FluxPercentilePercentDifference = 3;
