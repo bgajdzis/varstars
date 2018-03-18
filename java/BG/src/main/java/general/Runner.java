@@ -10,7 +10,7 @@ public class Runner {
     }
 
     private static void singleRun() {
-        System.out.println(singleRun(Constants.nonperiodicDblComparators));
+        System.out.println(singleRun(Constants.allDblComparators));
     }
 
     private static Double singleRun(Map<Class, Integer> firstLayerComparators) {
@@ -23,7 +23,6 @@ public class Runner {
         NetworkFactory nf = new NetworkFactory();
         System.out.println(inputList.size());
         int i = 0;
-        int perc = inputList.size() / 100;
         long t0 = System.currentTimeMillis();
         try {
             VarstarsNetwork testNetwork = nf.getFirstLayerTestNetwork(refSet, firstLayerComparators);

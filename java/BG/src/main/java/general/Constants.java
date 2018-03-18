@@ -3,7 +3,9 @@ package general;
 import comparators.*;
 
 import java.util.AbstractMap.SimpleEntry;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -343,7 +345,7 @@ public final class Constants {
             new SimpleEntry<Class, Integer>(Chi22DofMCOC.class, 0),
             new SimpleEntry<Class, Integer>(WeightedMeanMagMCOC.class, 1),
             new SimpleEntry<Class, Integer>(NEpochsMCOC.class, 0),
-            new SimpleEntry<Class, Integer>(Fc2FreqMCOC.class,  1),
+            new SimpleEntry<Class, Integer>(Fc2FreqMCOC.class, 1),
             new SimpleEntry<Class, Integer>(Fc2MinMCOC.class, 1),
             new SimpleEntry<Class, Integer>(Fc2DetrendMCOC.class, 0),
             new SimpleEntry<Class, Integer>(Fc2Sin1MCOC.class, 0),
@@ -354,4 +356,8 @@ public final class Constants {
             new SimpleEntry<Class, Integer>(CkpPeriod2MCOC.class, 0),
             new SimpleEntry<Class, Integer>(CkpCkp2MCOC.class, 0))
             .collect(Collectors.toMap(SimpleEntry::getKey, SimpleEntry::getValue));
+
+    public static final Map<Class, Integer> allDblComparators = Stream.of(periodicDblComparators.entrySet(),nonperiodicDblComparators.entrySet())
+            .flatMap(Set::stream).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 }
+
