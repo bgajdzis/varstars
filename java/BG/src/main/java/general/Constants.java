@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 public final class Constants {
 
     public static final Double nonPerP = 0.2;
-    public static final Double perP = 0.8;
+    public static final Double perP = 0.85;
     public static final Integer Amplitude = 1;
     public static final Integer PercentageAmplitude = 2;
     public static final Integer FluxPercentilePercentDifference = 3;
@@ -182,7 +182,7 @@ public final class Constants {
     public static final Integer CkpCkp2 = 177;
 
     public static final String SQLresultInsertHeader = "INSERT INTO predicted_types (name,type,confidence,run_id) VALUES";
-    public static final String SQLreferenceSelect = "SELECT * FROM reference_timeseries TABLESAMPLE BERNOULLI (25) WHERE fastchi_chidetrend IS NOT NULL";
+    public static final String SQLreferenceSelect = "SELECT * FROM reference_timeseries_2 WHERE fastchi_chidetrend IS NOT NULL";
     public static final String SQLinputGranuleSelect = "SELECT * FROM input_timeseries";
     public static final String SQLf1Getter = "SELECT * FROM scores WHERE run_id = ";
 

@@ -82,7 +82,7 @@ public class NetworkFactory {
         firstMidLayer.addComparator(new TimeseriesDTWMCOC("DTWComp"), 1);
         //firstMidLayer.addComparator(new TimeseriesTWEDMCOC("TWEDComp"), 1);
         VarstarsOutputLayer firstOutputLayer = new VarstarsOutputLayer("firstol");
-        firstNetwork.addLayer(firstInputLayer, FilterTranslationType.TOP_N, new COParameter<IMonolithicCOComparator<VarstarFeatureSet>, IMonolithicInputGranule<VarstarFeatureSet>, IReferenceObject>(new Integer(10)));
+        firstNetwork.addLayer(firstInputLayer, FilterTranslationType.GREATER_OR_EQUAL_X, new COParameter<IMonolithicCOComparator<VarstarFeatureSet>, IMonolithicInputGranule<VarstarFeatureSet>, IReferenceObject>(new Double(0.6)));
         firstNetwork.addLayer(firstMidLayer, FilterTranslationType.TOP_N, new COParameter<IMonolithicCOComparator<VarstarFeatureSet>, IMonolithicInputGranule<VarstarFeatureSet>, IReferenceObject>(new Integer(1)));
         firstNetwork.addLayer(firstOutputLayer, FilterTranslationType.RESULTS_FROM_PREVIOUS_LAYER, new COParameter<IMonolithicCOComparator<VarstarFeatureSet>, IMonolithicInputGranule<VarstarFeatureSet>, IReferenceObject>(firstMidLayer));
         return firstNetwork;
@@ -111,7 +111,7 @@ public class NetworkFactory {
             }
             if (weight != null && weight > 0) {
                 firstInputLayer.addComparator((AbstractMonolithicCOComparator<VarstarFeatureSet>) testComp, weight);
-                //System.out.println("Added comparator "+((AbstractMonolithicCOComparator<VarstarFeatureSet>) testComp).getName()+" with weight "+Integer.toString(weight));
+                System.out.println("Added comparator "+((AbstractMonolithicCOComparator<VarstarFeatureSet>) testComp).getName()+" with weight "+Integer.toString(weight));
             }
         }
         VarstarsOutputLayer firstOutputLayer = new VarstarsOutputLayer("firstol");
