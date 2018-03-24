@@ -37,7 +37,7 @@ public class Freq1SignifMCOC extends AbstractMonolithicCOComparator<VarstarFeatu
             ComparatorException {
         try {
             if (!(((VarstarsRef) ref).getReferenceName().equals("NPer"))) {
-                this.p = Constants.perP;
+                this.p = 0.9;
             }
         } catch (Exception e) {
             //log.error(e, e);
