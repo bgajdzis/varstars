@@ -37,7 +37,7 @@ public class BlsSignalDetectionEfficiency1MCOC extends AbstractMonolithicCOCompa
             ComparatorException {
         try {
             if (!(((VarstarsRef) ref).getReferenceName().equals("NPer"))) {
-                this.p = 0.9;
+                this.p = 0.95;
             }
         } catch (Exception e) {
             //log.error(e, e);

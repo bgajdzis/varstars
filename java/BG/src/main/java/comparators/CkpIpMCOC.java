@@ -37,7 +37,7 @@ public class CkpIpMCOC extends AbstractMonolithicCOComparator<VarstarFeatureSet>
             ComparatorException {
         try {
             if (!(((VarstarsRef) ref).getReferenceName().equals("NPer"))) {
-                this.p = 0.9;
+                this.p = 0.95;
             }
         } catch (Exception e) {
             //log.error(e, e);
